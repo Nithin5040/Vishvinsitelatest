@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vishvin | Your Digital Bridge To Success</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg-1:#070a12;
+    --bg-2:#0c1120;
+    --glass: rgba(255,255,255,0.055);
+    --glass-brd: rgba(255,255,255,0.14);
+    --glass-hi: rgba(255,255,255,0.16);
+    --teal:#5be8d4;
+    --violet:#9b8cff;
+    --amber:#ffc46b;
+    --text:#eef3f8;
+    --mute:#93a3b8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg-1);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+  h1,h2,h3,.disp{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px; position:relative; z-index:2;}
+  ::selection{background:var(--teal); color:#06140f;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* ===================== BACKGROUND WORLD ===================== */
+  .bg-fixed{position:fixed; inset:0; z-index:0; overflow:hidden;}
+  .mesh{position:absolute; inset:-20%; filter:blur(90px); opacity:0.55;}
+  .orb{position:absolute; border-radius:50%; mix-blend-mode:screen;}
+  .orb-a{width:46vw; height:46vw; left:-10%; top:-12%; background:radial-gradient(circle at 30% 30%, rgba(91,232,212,0.55), transparent 70%); animation:float1 22s ease-in-out infinite;}
+  .orb-b{width:38vw; height:38vw; right:-8%; top:10%; background:radial-gradient(circle at 60% 40%, rgba(155,140,255,0.5), transparent 70%); animation:float2 26s ease-in-out infinite;}
+  .orb-c{width:42vw; height:42vw; left:20%; bottom:-18%; background:radial-gradient(circle at 50% 50%, rgba(255,196,107,0.32), transparent 70%); animation:float3 30s ease-in-out infinite;}
+  @keyframes float1{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(6vw,8vw) scale(1.12);}}
+  @keyframes float2{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-7vw,5vw) scale(0.92);}}
+  @keyframes float3{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(4vw,-6vw) scale(1.08);}}
+
+  .grid-veil{
+    position:absolute; inset:0; opacity:0.3;
+    background-image:linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size:46px 46px;
+    mask-image:radial-gradient(ellipse 75% 65% at 50% 10%, black 30%, transparent 85%);
+    animation:driftgrid 30s linear infinite;
+  }
+  @keyframes driftgrid{from{background-position:0 0,0 0;} to{background-position:46px 92px,46px 92px;}}
+
+  .noise{position:absolute; inset:0; opacity:0.035; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  #glow{
+    position:fixed; width:520px; height:520px; border-radius:50%; pointer-events:none; z-index:1;
+    background:radial-gradient(circle, rgba(91,232,212,0.10), transparent 70%);
+    transform:translate(-50%,-50%); left:50%; top:30%;
+    transition:left .3s ease-out, top .3s ease-out;
+  }
+
+  /* ===================== GLASS SYSTEM ===================== */
+  .glass{
+    background:var(--glass);
+    border:1px solid var(--glass-brd);
+    backdrop-filter:blur(22px) saturate(140%);
+    -webkit-backdrop-filter:blur(22px) saturate(140%);
+    border-radius:22px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+    position:relative;
+  }
+  .glass::before{
+    content:""; position:absolute; inset:0; border-radius:inherit; padding:1px;
+    background:linear-gradient(135deg, rgba(255,255,255,0.22), transparent 40%, transparent 60%, rgba(255,255,255,0.06));
+    -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude;
+    pointer-events:none;
+  }
+  .glass-hover{transition:transform .45s cubic-bezier(.16,.8,.3,1), box-shadow .45s cubic-bezier(.16,.8,.3,1), border-color .35s;}
+  .glass-hover:hover{transform:translateY(-6px); box-shadow:0 20px 50px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.12); border-color:rgba(91,232,212,0.4);}
+
+  /* ===================== NAV ===================== */
+  nav{position:sticky; top:18px; z-index:50; margin:0 auto; max-width:1180px; padding:0 32px;}
+  .navbar{
+    display:flex; align-items:center; justify-content:space-between; height:64px; padding:0 22px;
+    border-radius:18px; margin-top:0;
+  }
+  .logo{font-size:18px; font-weight:700; letter-spacing:0.5px;}
+  .logo span{color:var(--teal);}
+  .navlinks{display:flex; gap:30px; font-size:12.5px; letter-spacing:1.3px; text-transform:uppercase; font-weight:500; color:var(--mute);}
+  .navlinks a{position:relative; transition:color .25s;}
+  .navlinks a:hover{color:var(--text);}
+  .navlinks a::after{content:""; position:absolute; left:0; bottom:-6px; width:0; height:1px; background:var(--teal); transition:width .3s cubic-bezier(.16,.8,.3,1);}
+  .navlinks a:hover::after{width:100%;}
+  .nav-cta{padding:10px 20px; font-size:12px; letter-spacing:1px; text-transform:uppercase; border-radius:12px;}
+
+  /* ===================== HERO ===================== */
+  .hero{position:relative; min-height:94vh; display:flex; flex-direction:column; justify-content:center; padding:60px 0;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px; padding:9px 18px; border-radius:30px; margin-bottom:30px;
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:2.2px; text-transform:uppercase; color:var(--teal);
+    opacity:0; animation:fadein .9s cubic-bezier(.16,.8,.3,1) forwards .05s;
+  }
+  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--teal); animation:pulse 1.8s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1; box-shadow:0 0 0 0 rgba(91,232,212,0.5);} 50%{opacity:.5; box-shadow:0 0 0 7px rgba(91,232,212,0);}}
+
+  .hero h1{font-size:clamp(40px,7vw,90px); line-height:0.98; font-weight:700; letter-spacing:-2px; max-width:920px;}
+  .hero h1 .line{display:block; overflow:hidden;}
+  .hero h1 .line span{display:inline-block; transform:translateY(110%); animation:lineup .9s cubic-bezier(.16,.8,.3,1) forwards;}
+  .hero h1 .line:nth-child(1) span{animation-delay:.15s;}
+  .hero h1 .line:nth-child(2) span{animation-delay:.3s;}
+  @keyframes lineup{to{transform:translateY(0);}}
+  .hero h1 em{font-style:normal; background:linear-gradient(120deg, var(--teal), var(--violet)); -webkit-background-clip:text; background-clip:text; color:transparent; background-size:200% 100%; animation:shine 5s ease-in-out infinite;}
+  @keyframes shine{0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;}}
+
+  .hero p.lead{margin-top:28px; max-width:560px; font-size:18px; line-height:1.65; color:var(--mute); opacity:0; animation:fadein .9s cubic-bezier(.16,.8,.3,1) forwards .55s;}
+  @keyframes fadein{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+  .cta-row{display:flex; gap:16px; margin-top:42px; flex-wrap:wrap; opacity:0; animation:fadein .9s cubic-bezier(.16,.8,.3,1) forwards .7s;}
+
+  .btn{padding:16px 30px; font-size:13px; letter-spacing:1.4px; text-transform:uppercase; font-weight:600; border-radius:14px; display:inline-flex; align-items:center; gap:10px; transition:all .3s cubic-bezier(.16,.8,.3,1); position:relative; overflow:hidden;}
+  .btn-primary{background:linear-gradient(135deg, var(--teal), #3fd6c0); color:#04140f; box-shadow:0 10px 30px rgba(91,232,212,0.25);}
+  .btn-primary:hover{transform:translateY(-3px); box-shadow:0 16px 40px rgba(91,232,212,0.4);}
+  .btn-primary::after{content:""; position:absolute; inset:0; background:rgba(255,255,255,0.35); transform:translateX(-130%) skewX(-20deg); transition:transform .55s ease;}
+  .btn-primary:hover::after{transform:translateX(130%) skewX(-20deg);}
+  .btn-ghost{color:var(--text);}
+  .btn-ghost:hover{transform:translateY(-3px); border-color:rgba(91,232,212,0.5) !important;}
+
+  /* floating glass orbit graphic (signature) */
+  .orbit-wrap{position:absolute; right:-2%; top:50%; transform:translateY(-50%); width:46%; max-width:560px; aspect-ratio:1; z-index:1; pointer-events:none;}
+  @media (max-width:980px){.orbit-wrap{display:none;}}
+  .orbit-ring{position:absolute; inset:0; border-radius:50%; border:1px solid rgba(255,255,255,0.10);}
+  .orbit-ring.r2{inset:11%; border-color:rgba(255,255,255,0.08);}
+  .orbit-ring.r3{inset:22%; border-color:rgba(255,255,255,0.07);}
+  .orbit-core{position:absolute; inset:34%; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgba(91,232,212,0.5), rgba(155,140,255,0.18) 60%, transparent 80%); filter:blur(2px); animation:corepulse 5s ease-in-out infinite;}
+  @keyframes corepulse{0%,100%{transform:scale(1);} 50%{transform:scale(1.06);}}
+  .orbit-spin{position:absolute; inset:0; animation:spin 38s linear infinite;}
+  .orbit-spin.rev{animation:spinrev 52s linear infinite;}
+  @keyframes spin{from{transform:rotate(0);} to{transform:rotate(360deg);}}
+  @keyframes spinrev{from{transform:rotate(360deg);} to{transform:rotate(0);}}
+  .node{position:absolute; width:14px; height:14px; border-radius:50%; background:var(--teal); box-shadow:0 0 18px 4px rgba(91,232,212,0.6);}
+  .node.v{background:var(--violet); box-shadow:0 0 18px 4px rgba(155,140,255,0.6);}
+  .node.a{background:var(--amber); box-shadow:0 0 18px 4px rgba(255,196,107,0.55);}
+
+  .scrollcue{position:absolute; bottom:14px; left:32px; z-index:2; display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--mute); opacity:0; animation:fadein 1s ease forwards .9s;}
+  .scrollcue .bar{width:1px; height:28px; background:linear-gradient(var(--teal), transparent); animation:scrolldown 1.6s ease-in-out infinite;}
+  @keyframes scrolldown{0%{transform:scaleY(0); transform-origin:top;} 50%{transform:scaleY(1); transform-origin:top;} 51%{transform-origin:bottom;} 100%{transform:scaleY(0); transform-origin:bottom;}}
+
+  /* ===================== STATS ===================== */
+  .stats-wrap{padding:0 0 0; margin:60px auto 0;}
+  .stats-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+  .stat-card{padding:30px 24px; border-radius:18px; text-align:left;}
+  .stat-card .num{font-family:'Space Grotesk',sans-serif; font-size:34px; font-weight:700; background:linear-gradient(135deg,var(--teal),var(--violet)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .stat-card .lbl{margin-top:6px; font-size:11.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--mute);}
+  @media (max-width:760px){.stats-grid{grid-template-columns:repeat(2,1fr);}}
+
+  /* ===================== SECTIONS ===================== */
+  section{position:relative; padding:120px 0; z-index:2;}
+  .sec-tag{display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:2.5px; text-transform:uppercase; color:var(--teal); margin-bottom:18px;}
+  .sec-tag::before{content:""; width:22px; height:1px; background:var(--teal);}
+  .sec-title{font-size:clamp(30px,4vw,50px); font-weight:700; letter-spacing:-1.5px; max-width:760px; margin-bottom:18px;}
+  .sec-sub{color:var(--mute); max-width:600px; font-size:16px; line-height:1.7;}
+
+  .reveal{opacity:0; transform:translateY(30px); transition:opacity .8s cubic-bezier(.16,.8,.3,1), transform .8s cubic-bezier(.16,.8,.3,1);}
+  .reveal.in{opacity:1; transform:translateY(0);}
+  .reveal-stagger > *{opacity:0; transform:translateY(26px) scale(.98); transition:opacity .7s cubic-bezier(.16,.8,.3,1), transform .7s cubic-bezier(.16,.8,.3,1);}
+  .reveal-stagger.in > *{opacity:1; transform:translateY(0) scale(1);}
+  .reveal-stagger.in > *:nth-child(1){transition-delay:0s;}
+  .reveal-stagger.in > *:nth-child(2){transition-delay:.08s;}
+  .reveal-stagger.in > *:nth-child(3){transition-delay:.16s;}
+  .reveal-stagger.in > *:nth-child(4){transition-delay:.24s;}
+  .reveal-stagger.in > *:nth-child(5){transition-delay:.32s;}
+  .reveal-stagger.in > *:nth-child(6){transition-delay:.4s;}
+  .reveal-stagger.in > *:nth-child(n+7){transition-delay:.46s;}
+
+  /* SERVICES */
+  .services-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:60px;}
+  .svc{padding:40px 32px; border-radius:20px;}
+  .svc .icon-orb{width:46px; height:46px; border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:26px; background:linear-gradient(135deg, rgba(91,232,212,0.25), rgba(155,140,255,0.18)); border:1px solid rgba(255,255,255,0.12);}
+  .svc .icon-orb svg{width:22px; height:22px; stroke:var(--teal);}
+  .svc h3{font-size:22px; font-weight:600; margin-bottom:12px; letter-spacing:-0.4px;}
+  .svc p{color:var(--mute); font-size:14.5px; line-height:1.7;}
+  .svc a.more{display:inline-flex; align-items:center; gap:6px; margin-top:22px; font-size:12px; letter-spacing:1.3px; text-transform:uppercase; color:var(--teal);}
+  .svc a.more svg{width:13px; height:13px; transition:transform .3s;}
+  .svc:hover a.more svg{transform:translateX(4px);}
+  @media (max-width:880px){.services-grid{grid-template-columns:1fr;}}
+
+  /* QUALITY */
+  .quality-row{display:flex; gap:24px; margin-top:56px; flex-wrap:wrap;}
+  .quality-list{flex:1; min-width:280px; display:flex; flex-direction:column; gap:12px;}
+  .qitem{display:flex; align-items:center; gap:16px; padding:18px 22px; border-radius:14px; overflow:hidden; position:relative;}
+  .qitem::after{content:""; position:absolute; left:-100%; top:0; bottom:0; width:100%; background:linear-gradient(90deg, transparent, rgba(91,232,212,0.08), transparent); transition:left .6s ease;}
+  .qitem:hover::after{left:100%;}
+  .qitem .qmark{color:var(--teal); font-family:'JetBrains Mono',monospace; font-size:13px; flex-shrink:0;}
+  .badge-wall{flex:1; min-width:260px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-content:start;}
+  .badge{border-radius:16px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; padding:16px;}
+  .badge img{max-width:100%; max-height:100%; border-radius:8px;}
+
+  /* CLIENTS */
+  .client-grid{display:grid; grid-template-columns:repeat(6,1fr); gap:14px; margin-top:56px;}
+  .client-tile{border-radius:16px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; padding:16px;}
+  .client-tile img{max-width:100%; max-height:100%; border-radius:6px;}
+  @media (max-width:880px){.client-grid{grid-template-columns:repeat(3,1fr);}}
+
+  /* TESTIMONIAL */
+  .testi{padding:56px 58px; margin-top:56px; border-radius:24px;}
+  .testi::after{content:"\201C"; position:absolute; top:8px; left:30px; font-family:'Space Grotesk',sans-serif; font-size:90px; color:rgba(255,255,255,0.08); line-height:1;}
+  .testi p{font-size:18.5px; line-height:1.8; color:var(--text); max-width:840px; position:relative; z-index:1;}
+  .testi .who{margin-top:26px; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--teal);}
+  @media (max-width:700px){.testi{padding:34px 26px;}}
+
+  /* PARTNERS */
+  .partner-strip{overflow:hidden; margin-top:60px; border-radius:18px; padding:8px 0;}
+  .partner-track{display:flex; gap:60px; padding:30px 0; width:max-content; animation:scrollx 30s linear infinite;}
+  .partner-track img{height:24px; width:auto; filter:grayscale(1) invert(0.85) opacity(0.75);}
+  @keyframes scrollx{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+
+  /* FOOTER */
+  footer{padding:30px 0 50px; position:relative; z-index:2;}
+  .footer-card{padding:64px 56px; border-radius:28px;}
+  .footer-top{display:flex; justify-content:space-between; gap:60px; flex-wrap:wrap; padding-bottom:50px; border-bottom:1px solid rgba(255,255,255,0.1);}
+  .footer-cta h2{font-size:clamp(28px,4vw,46px); font-weight:700; letter-spacing:-1px; max-width:520px;}
+  .footer-meta{display:flex; flex-direction:column; gap:14px; min-width:280px;}
+  .footer-meta .row{display:flex; gap:14px; font-size:14px; color:var(--mute);}
+  .footer-meta .row span.k{color:var(--teal); font-family:'JetBrains Mono',monospace; font-size:11px; min-width:60px; flex-shrink:0;}
+  .footer-bottom{display:flex; justify-content:space-between; padding-top:30px; font-size:12px; color:var(--mute); flex-wrap:wrap; gap:14px;}
+  .footer-bottom a:hover{color:var(--teal);}
+  @media (max-width:700px){.footer-card{padding:40px 28px;}}
+</style>
+</head>
+<body>
+
+<div class="bg-fixed">
+  <div class="mesh"><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div></div>
+  <div class="grid-veil"></div>
+  <div class="noise"></div>
+</div>
+<div id="glow"></div>
+
+<nav>
+  <div class="navbar glass">
+    <a class="logo" href="index.html">VISH<span>VIN</span></a>
+    <div class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="career.html">Career</a>
+    </div>
+    <a class="btn btn-primary nav-cta" href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<header class="hero" id="home">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>Bengaluru &middot; IT Consulting &amp; Services</div>
+    <h1>
+      <span class="line"><span>Your digital</span></span>
+      <span class="line"><span><em>bridge</em> to success.</span></span>
+    </h1>
+    <p class="lead">We help enterprises and government bodies modernize networks, integrate systems, and adopt frontier technology — IoT, geospatial, AI and drones — built on 75 years of combined experience.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#services">Explore Services →</a>
+      <a class="btn btn-ghost glass" href="#contact">Get In Touch</a>
+    </div>
+  </div>
+
+  <div class="orbit-wrap">
+    <div class="orbit-ring"></div>
+    <div class="orbit-ring r2"></div>
+    <div class="orbit-ring r3"></div>
+    <div class="orbit-core"></div>
+    <div class="orbit-spin"><div class="node" style="top:0; left:50%; transform:translate(-50%,-50%);"></div></div>
+    <div class="orbit-spin rev"><div class="node v" style="top:50%; right:0; transform:translate(50%,-50%);"></div></div>
+    <div class="orbit-spin" style="animation-duration:64s;"><div class="node a" style="bottom:8%; left:14%;"></div></div>
+  </div>
+
+  <div class="scrollcue"><span class="bar"></span>Scroll</div>
+</header>
+
+<div class="wrap stats-wrap reveal-stagger">
+  <div class="stats-grid">
+    <div class="stat-card glass glass-hover"><div class="num" data-count="75" data-suffix="">0</div><div class="lbl">Years Experience</div></div>
+    <div class="stat-card glass glass-hover"><div class="num" data-count="25" data-suffix="+">0</div><div class="lbl">Enterprise Clients</div></div>
+    <div class="stat-card glass glass-hover"><div class="num" data-count="500" data-suffix="+">0</div><div class="lbl">Manpower</div></div>
+    <div class="stat-card glass glass-hover"><div class="num">&infin;</div><div class="lbl">Endless Smiles</div></div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <div class="sec-tag reveal">What we do</div>
+    <h2 class="sec-title reveal">Diversification driving a fast-growing company.</h2>
+    <p class="sec-sub reveal">Keeping the core, while moving from good to great — with cutting-edge prospects in IoT, geospatial technology and artificial intelligence.</p>
+
+    <div class="services-grid reveal-stagger">
+      <div class="svc glass glass-hover">
+        <div class="icon-orb"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><circle cx="7" cy="7" r="0.8"/><circle cx="7" cy="17" r="0.8"/></svg></div>
+        <h3>IT Infrastructure Specialism</h3>
+        <p>Driving change through network modernization and system integration for enterprises and government bodies alike.</p>
+        <a class="more" href="#">Know more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="svc glass glass-hover">
+        <div class="icon-orb"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg></div>
+        <h3>Cloud-Based IoT Solutions</h3>
+        <p>Making communication possible between people, processes and things — transforming your enterprise with connected systems.</p>
+        <a class="more" href="#">Know more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="svc glass glass-hover">
+        <div class="icon-orb"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 5 5 .8-3.6 3.5.9 5-5.3-2.8L6.7 16.3l.9-5L4 7.8 9 7z"/></svg></div>
+        <h3>Drone-Based Services</h3>
+        <p>Accurate, actionable insight on assets and properties, captured at record speed using drone technology and AI analytics.</p>
+        <a class="more" href="#">Know more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="quality">
+  <div class="wrap">
+    <div class="sec-tag reveal">Standards</div>
+    <h2 class="sec-title reveal">Quality &amp; excellence, certified.</h2>
+    <p class="sec-sub reveal">Vishvin gives utmost priority to the quality of the goods and services it delivers to customers.</p>
+
+    <div class="quality-row">
+      <div class="quality-list reveal-stagger">
+        <div class="qitem glass"><span class="qmark">✓</span><span>ISO 9001:2015 — Quality Management System</span></div>
+        <div class="qitem glass"><span class="qmark">✓</span><span>ISO 27001:2013 — Information Security Management</span></div>
+        <div class="qitem glass"><span class="qmark">✓</span><span>ISO 20000:2018 — IT Service Management System</span></div>
+        <div class="qitem glass"><span class="qmark">✓</span><span>ISO 45001:2018 — Occupational Health &amp; Safety</span></div>
+        <div class="qitem glass"><span class="qmark">✓</span><span>CMMI Level 3 — Process Maturity</span></div>
+      </div>
+      <div class="badge-wall reveal-stagger">
+        <div class="badge glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_cf62888a2b2f43da810eb03658840c3e~mv2.jpg" alt="ISO 9001"></div>
+        <div class="badge glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_566d5bdec1a444fbb86e81c079eae03b~mv2.png" alt="CMMI L3"></div>
+        <div class="badge glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_a0de35e703be49eaa435742ec9da71d6~mv2.jpg" alt="ISO 45001"></div>
+        <div class="badge glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_f8d5f17690b4472891f211399718ab7c~mv2.jpg" alt="ISO 27001"></div>
+        <div class="badge glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_1ad12993a3ce49b3a9de1ad2c9b1d4d8~mv2.jpg" alt="ISO 20000"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="clients">
+  <div class="wrap">
+    <div class="sec-tag reveal">Trust</div>
+    <h2 class="sec-title reveal">Some of our esteemed clients.</h2>
+    <p class="sec-sub reveal">Powering critical infrastructure for Karnataka's leading utilities and government departments.</p>
+
+    <div class="client-grid reveal-stagger">
+      <div class="client-tile glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_01695d6f150446cb86a3eecf46b05941~mv2.jpg" alt="KPTCL"></div>
+      <div class="client-tile glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_a5757f8522bf4653adebb663660c59e5~mv2.jpg" alt="BESCOM"></div>
+      <div class="client-tile glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_57d1ea026eb943249520481189db8044~mv2.jpg" alt="HESCOM"></div>
+      <div class="client-tile glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_5ff84dc2096247f8b4d720574b77a714~mv2.jpg" alt="GESCOM"></div>
+      <div class="client-tile glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_aaa5df13556e4ab8bc7f7ab73dea7b9a~mv2.jpg" alt="CESCOM"></div>
+      <div class="client-tile glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_98d162d93aa64835862d317f96b60512~mv2.jpg" alt="BWSSB"></div>
+      <div class="client-tile glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_bb7436985d0449938aa1f8e26943fe72~mv2.jpg" alt="KREIS"></div>
+      <div class="client-tile glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_90e8735d32c044359bdae1dfd55a61a4~mv2.jpg" alt="GOK"></div>
+      <div class="client-tile glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_5c47526c24c6494bb41415994b7222a1~mv2.jpg" alt="Dept of Tribal Welfare"></div>
+      <div class="client-tile glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_944f1b7010a64615b340be0cb7f66fd9~mv2.jpg" alt="Revenue Dept Karnataka"></div>
+      <div class="client-tile glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_782e223a3c1e4e2db2e174144fedefb1~mv2.jpg" alt="Dept of College Education"></div>
+      <div class="client-tile glass glass-hover"><img src="https://static.wixstatic.com/media/27df3d_6846eaf53b0a4c03b068a9f60e79d989~mv2.jpg" alt="Dept of Public Library"></div>
+    </div>
+
+    <div class="testi glass reveal">
+      <p>Vishvin Technologies have been pivotal in deploying and hosting servers on Microsoft Azure cloud for the Solar Energy Data Management portal of Karnataka State under the PM-KUSUM scheme, as per MNRE guidelines — and played a prime role in establishing the Customer Care Centre under the IPDS IT Phase-II project covering RAPDRP, IPDS and rural areas of BESCOM. This team's speed, dedication and efficiency are commendable.</p>
+      <div class="who">— Deputy General Manager (ICT &amp; MIS), BESCOM</div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="partner-strip glass">
+      <div class="partner-track">
+        <img src="https://static.wixstatic.com/media/27df3d_fa18afcffc7d4d5d97ae5ca2f3e819aa~mv2.jpg" alt="Dell">
+        <img src="https://static.wixstatic.com/media/27df3d_43c8a5f139404288bfcf96e61cc6b264~mv2.jpg" alt="Fortinet">
+        <img src="https://static.wixstatic.com/media/27df3d_a53f26703a22491485fa9ce9c45948ae~mv2.jpg" alt="Lenovo">
+        <img src="https://static.wixstatic.com/media/27df3d_f24502a83a1b4f12b9383738dd160cf4~mv2.jpg" alt="Cisco">
+        <img src="https://static.wixstatic.com/media/27df3d_631f1d79c1d44f1dbe842314d8808911~mv2.jpg" alt="Red Hat">
+        <img src="https://static.wixstatic.com/media/27df3d_a34ba8de2fe9458f9255c58e6a5396a7~mv2.jpg" alt="Vertiv">
+        <img src="https://static.wixstatic.com/media/27df3d_ed5312833c304334ba3db6d30246809d~mv2.jpg" alt="HP">
+        <img src="https://static.wixstatic.com/media/27df3d_cb75d939d1624a819c97470c4873c924~mv2.jpg" alt="Microsoft">
+        <img src="https://static.wixstatic.com/media/27df3d_950dab1c0e434cc587dc06d5b858f7bf~mv2.jpg" alt="VMware">
+        <img src="https://static.wixstatic.com/media/27df3d_043d18b5cb3948e6936e71b1cee2b660~mv2.jpg" alt="HPE">
+        <img src="https://static.wixstatic.com/media/27df3d_fa18afcffc7d4d5d97ae5ca2f3e819aa~mv2.jpg" alt="Dell">
+        <img src="https://static.wixstatic.com/media/27df3d_43c8a5f139404288bfcf96e61cc6b264~mv2.jpg" alt="Fortinet">
+        <img src="https://static.wixstatic.com/media/27df3d_a53f26703a22491485fa9ce9c45948ae~mv2.jpg" alt="Lenovo">
+        <img src="https://static.wixstatic.com/media/27df3d_f24502a83a1b4f12b9383738dd160cf4~mv2.jpg" alt="Cisco">
+        <img src="https://static.wixstatic.com/media/27df3d_631f1d79c1d44f1dbe842314d8808911~mv2.jpg" alt="Red Hat">
+        <img src="https://static.wixstatic.com/media/27df3d_a34ba8de2fe9458f9255c58e6a5396a7~mv2.jpg" alt="Vertiv">
+        <img src="https://static.wixstatic.com/media/27df3d_ed5312833c304334ba3db6d30246809d~mv2.jpg" alt="HP">
+        <img src="https://static.wixstatic.com/media/27df3d_cb75d939d1624a819c97470c4873c924~mv2.jpg" alt="Microsoft">
+        <img src="https://static.wixstatic.com/media/27df3d_950dab1c0e434cc587dc06d5b858f7bf~mv2.jpg" alt="VMware">
+        <img src="https://static.wixstatic.com/media/27df3d_043d18b5cb3948e6936e71b1cee2b660~mv2.jpg" alt="HPE">
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-card glass reveal">
+      <div class="footer-top">
+        <div class="footer-cta">
+          <div class="sec-tag">Let's build</div>
+          <h2>Ready to cross<br>your digital bridge?</h2>
+        </div>
+        <div class="footer-meta">
+          <div class="row"><span class="k">ADDR</span><span>No. 3359, 2nd Floor, Above More Supermarket, Hosakerehalli Cross, BSK 3rd Stage, Bengaluru – 560 085</span></div>
+          <div class="row"><span class="k">MAIL</span><span>support@vishvin.com</span></div>
+          <div class="row"><span class="k">TEL</span><span>080-35711232</span></div>
+          <div class="row"><span class="k">LINK</span><span><a href="https://www.linkedin.com/company/vishvin-technologies-private-limited/about/" target="_blank">LinkedIn →</a></span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2024 Vishvin Technologies Pvt. Ltd. All rights reserved.</span>
+        <span><a href="#">Privacy Policy</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const glow = document.getElementById('glow');
+  window.addEventListener('pointermove', e=>{ glow.style.left = e.clientX+'px'; glow.style.top = e.clientY+'px'; });
+
+  const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, {threshold:0.16});
+  revealEls.forEach(el=>io.observe(el));
+
+  const counters = document.querySelectorAll('.num[data-count]');
+  const countIO = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        const el = en.target;
+        const target = parseInt(el.dataset.count,10);
+        const suffix = el.dataset.suffix || '';
+        const dur = 1400; const start = performance.now();
+        function tick(now){
+          const p = Math.min((now-start)/dur, 1);
+          const eased = 1 - Math.pow(1-p, 3);
+          el.textContent = Math.round(eased*target) + suffix;
+          if(p<1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        countIO.unobserve(el);
+      }
+    });
+  }, {threshold:0.5});
+  counters.forEach(el=>countIO.observe(el));
+
+  // subtle tilt on glass cards
+  document.querySelectorAll('.glass-hover').forEach(card=>{
+    card.addEventListener('mousemove', e=>{
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - 0.5;
+      const y = (e.clientY - r.top)/r.height - 0.5;
+      card.style.transform = `translateY(-6px) rotateX(${(-y*5).toFixed(2)}deg) rotateY(${(x*5).toFixed(2)}deg)`;
+    });
+    card.addEventListener('mouseleave', ()=>{ card.style.transform=''; });
+  });
+</script>
+</body>
+</html>

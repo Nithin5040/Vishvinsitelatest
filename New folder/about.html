@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About | Vishvin</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg-1:#070a12;
+    --bg-2:#0c1120;
+    --glass: rgba(255,255,255,0.055);
+    --glass-brd: rgba(255,255,255,0.14);
+    --glass-hi: rgba(255,255,255,0.16);
+    --teal:#5be8d4;
+    --violet:#9b8cff;
+    --amber:#ffc46b;
+    --text:#eef3f8;
+    --mute:#93a3b8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg-1);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+  h1,h2,h3,.disp{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px; position:relative; z-index:2;}
+  ::selection{background:var(--teal); color:#06140f;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* ===================== BACKGROUND WORLD ===================== */
+  .bg-fixed{position:fixed; inset:0; z-index:0; overflow:hidden;}
+  .mesh{position:absolute; inset:-20%; filter:blur(90px); opacity:0.55;}
+  .orb{position:absolute; border-radius:50%; mix-blend-mode:screen;}
+  .orb-a{width:46vw; height:46vw; left:-10%; top:-12%; background:radial-gradient(circle at 30% 30%, rgba(91,232,212,0.55), transparent 70%); animation:float1 22s ease-in-out infinite;}
+  .orb-b{width:38vw; height:38vw; right:-8%; top:10%; background:radial-gradient(circle at 60% 40%, rgba(155,140,255,0.5), transparent 70%); animation:float2 26s ease-in-out infinite;}
+  .orb-c{width:42vw; height:42vw; left:20%; bottom:-18%; background:radial-gradient(circle at 50% 50%, rgba(255,196,107,0.32), transparent 70%); animation:float3 30s ease-in-out infinite;}
+  @keyframes float1{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(6vw,8vw) scale(1.12);}}
+  @keyframes float2{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-7vw,5vw) scale(0.92);}}
+  @keyframes float3{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(4vw,-6vw) scale(1.08);}}
+
+  .grid-veil{
+    position:absolute; inset:0; opacity:0.3;
+    background-image:linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size:46px 46px;
+    mask-image:radial-gradient(ellipse 75% 65% at 50% 10%, black 30%, transparent 85%);
+    animation:driftgrid 30s linear infinite;
+  }
+  @keyframes driftgrid{from{background-position:0 0,0 0;} to{background-position:46px 92px,46px 92px;}}
+
+  .noise{position:absolute; inset:0; opacity:0.035; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  #glow{
+    position:fixed; width:520px; height:520px; border-radius:50%; pointer-events:none; z-index:1;
+    background:radial-gradient(circle, rgba(91,232,212,0.10), transparent 70%);
+    transform:translate(-50%,-50%); left:50%; top:30%;
+    transition:left .3s ease-out, top .3s ease-out;
+  }
+
+  /* ===================== GLASS SYSTEM ===================== */
+  .glass{
+    background:var(--glass);
+    border:1px solid var(--glass-brd);
+    backdrop-filter:blur(22px) saturate(140%);
+    -webkit-backdrop-filter:blur(22px) saturate(140%);
+    border-radius:22px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+    position:relative;
+  }
+  .glass::before{
+    content:""; position:absolute; inset:0; border-radius:inherit; padding:1px;
+    background:linear-gradient(135deg, rgba(255,255,255,0.22), transparent 40%, transparent 60%, rgba(255,255,255,0.06));
+    -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude;
+    pointer-events:none;
+  }
+  .glass-hover{transition:transform .45s cubic-bezier(.16,.8,.3,1), box-shadow .45s cubic-bezier(.16,.8,.3,1), border-color .35s;}
+  .glass-hover:hover{transform:translateY(-6px); box-shadow:0 20px 50px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.12); border-color:rgba(91,232,212,0.4);}
+
+  /* ===================== NAV ===================== */
+  nav{position:sticky; top:18px; z-index:50; margin:0 auto; max-width:1180px; padding:0 32px;}
+  .navbar{
+    display:flex; align-items:center; justify-content:space-between; height:64px; padding:0 22px;
+    border-radius:18px; margin-top:0;
+  }
+  .logo{font-size:18px; font-weight:700; letter-spacing:0.5px;}
+  .logo span{color:var(--teal);}
+  .navlinks{display:flex; gap:30px; font-size:12.5px; letter-spacing:1.3px; text-transform:uppercase; font-weight:500; color:var(--mute);}
+  .navlinks a{position:relative; transition:color .25s;}
+  .navlinks a:hover{color:var(--text);}
+  .navlinks a::after{content:""; position:absolute; left:0; bottom:-6px; width:0; height:1px; background:var(--teal); transition:width .3s cubic-bezier(.16,.8,.3,1);}
+  .navlinks a:hover::after{width:100%;}
+  .nav-cta{padding:10px 20px; font-size:12px; letter-spacing:1px; text-transform:uppercase; border-radius:12px;}
+
+  /* ===================== HERO ===================== */
+  .hero{position:relative; min-height:94vh; display:flex; flex-direction:column; justify-content:center; padding:60px 0;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px; padding:9px 18px; border-radius:30px; margin-bottom:30px;
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:2.2px; text-transform:uppercase; color:var(--teal);
+    opacity:0; animation:fadein .9s cubic-bezier(.16,.8,.3,1) forwards .05s;
+  }
+  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--teal); animation:pulse 1.8s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1; box-shadow:0 0 0 0 rgba(91,232,212,0.5);} 50%{opacity:.5; box-shadow:0 0 0 7px rgba(91,232,212,0);}}
+
+  .hero h1{font-size:clamp(40px,7vw,90px); line-height:0.98; font-weight:700; letter-spacing:-2px; max-width:920px;}
+  .hero h1 .line{display:block; overflow:hidden;}
+  .hero h1 .line span{display:inline-block; transform:translateY(110%); animation:lineup .9s cubic-bezier(.16,.8,.3,1) forwards;}
+  .hero h1 .line:nth-child(1) span{animation-delay:.15s;}
+  .hero h1 .line:nth-child(2) span{animation-delay:.3s;}
+  @keyframes lineup{to{transform:translateY(0);}}
+  .hero h1 em{font-style:normal; background:linear-gradient(120deg, var(--teal), var(--violet)); -webkit-background-clip:text; background-clip:text; color:transparent; background-size:200% 100%; animation:shine 5s ease-in-out infinite;}
+  @keyframes shine{0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;}}
+
+  .hero p.lead{margin-top:28px; max-width:560px; font-size:18px; line-height:1.65; color:var(--mute); opacity:0; animation:fadein .9s cubic-bezier(.16,.8,.3,1) forwards .55s;}
+  @keyframes fadein{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+  .cta-row{display:flex; gap:16px; margin-top:42px; flex-wrap:wrap; opacity:0; animation:fadein .9s cubic-bezier(.16,.8,.3,1) forwards .7s;}
+
+  .btn{padding:16px 30px; font-size:13px; letter-spacing:1.4px; text-transform:uppercase; font-weight:600; border-radius:14px; display:inline-flex; align-items:center; gap:10px; transition:all .3s cubic-bezier(.16,.8,.3,1); position:relative; overflow:hidden;}
+  .btn-primary{background:linear-gradient(135deg, var(--teal), #3fd6c0); color:#04140f; box-shadow:0 10px 30px rgba(91,232,212,0.25);}
+  .btn-primary:hover{transform:translateY(-3px); box-shadow:0 16px 40px rgba(91,232,212,0.4);}
+  .btn-primary::after{content:""; position:absolute; inset:0; background:rgba(255,255,255,0.35); transform:translateX(-130%) skewX(-20deg); transition:transform .55s ease;}
+  .btn-primary:hover::after{transform:translateX(130%) skewX(-20deg);}
+  .btn-ghost{color:var(--text);}
+  .btn-ghost:hover{transform:translateY(-3px); border-color:rgba(91,232,212,0.5) !important;}
+
+  /* floating glass orbit graphic (signature) */
+  .orbit-wrap{position:absolute; right:-2%; top:50%; transform:translateY(-50%); width:46%; max-width:560px; aspect-ratio:1; z-index:1; pointer-events:none;}
+  @media (max-width:980px){.orbit-wrap{display:none;}}
+  .orbit-ring{position:absolute; inset:0; border-radius:50%; border:1px solid rgba(255,255,255,0.10);}
+  .orbit-ring.r2{inset:11%; border-color:rgba(255,255,255,0.08);}
+  .orbit-ring.r3{inset:22%; border-color:rgba(255,255,255,0.07);}
+  .orbit-core{position:absolute; inset:34%; border-radius:50%; background:radial-gradient(circle at 35% 30%, rgba(91,232,212,0.5), rgba(155,140,255,0.18) 60%, transparent 80%); filter:blur(2px); animation:corepulse 5s ease-in-out infinite;}
+  @keyframes corepulse{0%,100%{transform:scale(1);} 50%{transform:scale(1.06);}}
+  .orbit-spin{position:absolute; inset:0; animation:spin 38s linear infinite;}
+  .orbit-spin.rev{animation:spinrev 52s linear infinite;}
+  @keyframes spin{from{transform:rotate(0);} to{transform:rotate(360deg);}}
+  @keyframes spinrev{from{transform:rotate(360deg);} to{transform:rotate(0);}}
+  .node{position:absolute; width:14px; height:14px; border-radius:50%; background:var(--teal); box-shadow:0 0 18px 4px rgba(91,232,212,0.6);}
+  .node.v{background:var(--violet); box-shadow:0 0 18px 4px rgba(155,140,255,0.6);}
+  .node.a{background:var(--amber); box-shadow:0 0 18px 4px rgba(255,196,107,0.55);}
+
+  .scrollcue{position:absolute; bottom:14px; left:32px; z-index:2; display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--mute); opacity:0; animation:fadein 1s ease forwards .9s;}
+  .scrollcue .bar{width:1px; height:28px; background:linear-gradient(var(--teal), transparent); animation:scrolldown 1.6s ease-in-out infinite;}
+  @keyframes scrolldown{0%{transform:scaleY(0); transform-origin:top;} 50%{transform:scaleY(1); transform-origin:top;} 51%{transform-origin:bottom;} 100%{transform:scaleY(0); transform-origin:bottom;}}
+
+  /* ===================== STATS ===================== */
+  .stats-wrap{padding:0 0 0; margin:60px auto 0;}
+  .stats-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+  .stat-card{padding:30px 24px; border-radius:18px; text-align:left;}
+  .stat-card .num{font-family:'Space Grotesk',sans-serif; font-size:34px; font-weight:700; background:linear-gradient(135deg,var(--teal),var(--violet)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .stat-card .lbl{margin-top:6px; font-size:11.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--mute);}
+  @media (max-width:760px){.stats-grid{grid-template-columns:repeat(2,1fr);}}
+
+  /* ===================== SECTIONS ===================== */
+  section{position:relative; padding:120px 0; z-index:2;}
+  .sec-tag{display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:2.5px; text-transform:uppercase; color:var(--teal); margin-bottom:18px;}
+  .sec-tag::before{content:""; width:22px; height:1px; background:var(--teal);}
+  .sec-title{font-size:clamp(30px,4vw,50px); font-weight:700; letter-spacing:-1.5px; max-width:760px; margin-bottom:18px;}
+  .sec-sub{color:var(--mute); max-width:600px; font-size:16px; line-height:1.7;}
+
+  .reveal{opacity:0; transform:translateY(30px); transition:opacity .8s cubic-bezier(.16,.8,.3,1), transform .8s cubic-bezier(.16,.8,.3,1);}
+  .reveal.in{opacity:1; transform:translateY(0);}
+  .reveal-stagger > *{opacity:0; transform:translateY(26px) scale(.98); transition:opacity .7s cubic-bezier(.16,.8,.3,1), transform .7s cubic-bezier(.16,.8,.3,1);}
+  .reveal-stagger.in > *{opacity:1; transform:translateY(0) scale(1);}
+  .reveal-stagger.in > *:nth-child(1){transition-delay:0s;}
+  .reveal-stagger.in > *:nth-child(2){transition-delay:.08s;}
+  .reveal-stagger.in > *:nth-child(3){transition-delay:.16s;}
+  .reveal-stagger.in > *:nth-child(4){transition-delay:.24s;}
+  .reveal-stagger.in > *:nth-child(5){transition-delay:.32s;}
+  .reveal-stagger.in > *:nth-child(6){transition-delay:.4s;}
+  .reveal-stagger.in > *:nth-child(n+7){transition-delay:.46s;}
+
+  /* SERVICES */
+  .services-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:60px;}
+  .svc{padding:40px 32px; border-radius:20px;}
+  .svc .icon-orb{width:46px; height:46px; border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:26px; background:linear-gradient(135deg, rgba(91,232,212,0.25), rgba(155,140,255,0.18)); border:1px solid rgba(255,255,255,0.12);}
+  .svc .icon-orb svg{width:22px; height:22px; stroke:var(--teal);}
+  .svc h3{font-size:22px; font-weight:600; margin-bottom:12px; letter-spacing:-0.4px;}
+  .svc p{color:var(--mute); font-size:14.5px; line-height:1.7;}
+  .svc a.more{display:inline-flex; align-items:center; gap:6px; margin-top:22px; font-size:12px; letter-spacing:1.3px; text-transform:uppercase; color:var(--teal);}
+  .svc a.more svg{width:13px; height:13px; transition:transform .3s;}
+  .svc:hover a.more svg{transform:translateX(4px);}
+  @media (max-width:880px){.services-grid{grid-template-columns:1fr;}}
+
+  /* QUALITY */
+  .quality-row{display:flex; gap:24px; margin-top:56px; flex-wrap:wrap;}
+  .quality-list{flex:1; min-width:280px; display:flex; flex-direction:column; gap:12px;}
+  .qitem{display:flex; align-items:center; gap:16px; padding:18px 22px; border-radius:14px; overflow:hidden; position:relative;}
+  .qitem::after{content:""; position:absolute; left:-100%; top:0; bottom:0; width:100%; background:linear-gradient(90deg, transparent, rgba(91,232,212,0.08), transparent); transition:left .6s ease;}
+  .qitem:hover::after{left:100%;}
+  .qitem .qmark{color:var(--teal); font-family:'JetBrains Mono',monospace; font-size:13px; flex-shrink:0;}
+  .badge-wall{flex:1; min-width:260px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-content:start;}
+  .badge{border-radius:16px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; padding:16px;}
+  .badge img{max-width:100%; max-height:100%; border-radius:8px;}
+
+  /* CLIENTS */
+  .client-grid{display:grid; grid-template-columns:repeat(6,1fr); gap:14px; margin-top:56px;}
+  .client-tile{border-radius:16px; aspect-ratio:1; display:flex; align-items:center; justify-content:center; padding:16px;}
+  .client-tile img{max-width:100%; max-height:100%; border-radius:6px;}
+  @media (max-width:880px){.client-grid{grid-template-columns:repeat(3,1fr);}}
+
+  /* TESTIMONIAL */
+  .testi{padding:56px 58px; margin-top:56px; border-radius:24px;}
+  .testi::after{content:"\201C"; position:absolute; top:8px; left:30px; font-family:'Space Grotesk',sans-serif; font-size:90px; color:rgba(255,255,255,0.08); line-height:1;}
+  .testi p{font-size:18.5px; line-height:1.8; color:var(--text); max-width:840px; position:relative; z-index:1;}
+  .testi .who{margin-top:26px; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--teal);}
+  @media (max-width:700px){.testi{padding:34px 26px;}}
+
+  /* PARTNERS */
+  .partner-strip{overflow:hidden; margin-top:60px; border-radius:18px; padding:8px 0;}
+  .partner-track{display:flex; gap:60px; padding:30px 0; width:max-content; animation:scrollx 30s linear infinite;}
+  .partner-track img{height:24px; width:auto; filter:grayscale(1) invert(0.85) opacity(0.75);}
+  @keyframes scrollx{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+
+  /* FOOTER */
+  footer{padding:30px 0 50px; position:relative; z-index:2;}
+  .footer-card{padding:64px 56px; border-radius:28px;}
+  .footer-top{display:flex; justify-content:space-between; gap:60px; flex-wrap:wrap; padding-bottom:50px; border-bottom:1px solid rgba(255,255,255,0.1);}
+  .footer-cta h2{font-size:clamp(28px,4vw,46px); font-weight:700; letter-spacing:-1px; max-width:520px;}
+  .footer-meta{display:flex; flex-direction:column; gap:14px; min-width:280px;}
+  .footer-meta .row{display:flex; gap:14px; font-size:14px; color:var(--mute);}
+  .footer-meta .row span.k{color:var(--teal); font-family:'JetBrains Mono',monospace; font-size:11px; min-width:60px; flex-shrink:0;}
+  .footer-bottom{display:flex; justify-content:space-between; padding-top:30px; font-size:12px; color:var(--mute); flex-wrap:wrap; gap:14px;}
+  .footer-bottom a:hover{color:var(--teal);}
+  @media (max-width:700px){.footer-card{padding:40px 28px;}}
+</style>
+</head>
+<body>
+<div class="bg-fixed">
+  <div class="mesh"><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div></div>
+  <div class="grid-veil"></div>
+  <div class="noise"></div>
+</div>
+<div id="glow"></div>
+
+<nav>
+  <div class="navbar glass">
+    <a class="logo" href="index.html">VISH<span>VIN</span></a>
+    <div class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="career.html">Career</a>
+    </div>
+    <a class="btn btn-primary nav-cta" href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<header class="hero" style="min-height:70vh;">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>About Vishvin</div>
+    <h1>
+      <span class="line"><span>75 years of</span></span>
+      <span class="line"><span>achieving <em>excellence</em></span></span>
+    </h1>
+    <p class="lead">Our team of experienced analysts, engineers and technical leads offer clients a one-stop shop for evaluating and selecting IT solutions.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-tag reveal">What we stand for</div>
+    <h2 class="sec-title reveal">Mission &amp; Vision</h2>
+    <div class="services-grid reveal-stagger" style="grid-template-columns:repeat(2,1fr);">
+      <div class="svc glass glass-hover">
+        <h3>Mission</h3>
+        <p>To be a premier IT solutions and infrastructure company — delivering end-to-end, sustainable technology solutions with proven products, precise execution and dependable support.</p>
+      </div>
+      <div class="svc glass glass-hover">
+        <h3>Vision</h3>
+        <p>To delight customers and stakeholders by delivering best-in-class services that help them achieve their own business excellence.</p>
+      </div>
+    </div>
+
+    <div class="testi glass reveal" style="margin-top:40px;">
+      <p>Founded in 2017, Vishvin Technologies set out to become a preferred IT infrastructure and IT-enabled services partner, contributing to India's digital growth. The leadership is focused on building a sustainable, end-to-end solutions company — pairing proven products with precise delivery and dependable support for both government and private-sector clients.</p>
+      <div class="who">— About Vishvin</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-tag reveal">How we work</div>
+    <h2 class="sec-title reveal">Our Work Ethos</h2>
+    <div class="services-grid reveal-stagger">
+      <div class="svc glass glass-hover">
+        <div class="icon-orb"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h3>Anchored by Goal</h3>
+        <p>We focus on creating impact that lasts well beyond a single project or milestone.</p>
+      </div>
+      <div class="svc glass glass-hover">
+        <div class="icon-orb"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.4-9.5-9A5.5 5.5 0 0112 6a5.5 5.5 0 019.5 6c-2.5 4.6-9.5 9-9.5 9z"/></svg></div>
+        <h3>Care of Others</h3>
+        <p>We succeed by cooperating and supporting one another — staying sincere, sympathetic and humble.</p>
+      </div>
+      <div class="svc glass glass-hover">
+        <div class="icon-orb"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
+        <h3>Aspirational Results</h3>
+        <p>We take initiative, own responsibility, and stay with an issue until it's genuinely resolved.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-tag reveal">Leadership</div>
+    <h2 class="sec-title reveal">A word from our leadership</h2>
+
+    <div class="services-grid reveal-stagger" style="grid-template-columns:1fr; gap:18px; margin-top:48px;">
+      <div class="svc glass glass-hover">
+        <h3>CEO's Message</h3>
+        <p>Building a company rooted in the new frontier technologies of the information age has long been the founding ambition for Vishvin. Each milestone reached opens the next, and that constant motivation now spans IT infrastructure services, smart metering and drone technology. With a focused, capable team, the goal is to keep scaling new levels of excellence for government and private clients alike, with the journey still in its early chapters.</p>
+      </div>
+      <div class="svc glass glass-hover">
+        <h3>CFO's Message — Ashok M, Director &amp; CFO</h3>
+        <p>Vishvin has always aimed to stand out through quality and competitive pricing that delivers real value. The finance team focuses on disciplined capital allocation and shareholder returns, guided by three growth levers: controlling the cost of capital, optimizing short-term profit, and maximizing long-term value across the organization.</p>
+      </div>
+      <div class="svc glass glass-hover">
+        <h3>Director's Message — S Venkatesh Murthy, Director</h3>
+        <p>Steering marketing and projects at a pivotal moment of transformation, the focus is on embracing new frontier technologies while keeping quality products and customer delight at the center. In just a few years Vishvin became a recognized name in ITeS and IT infrastructure for utilities, with ambitions to lead in geospatial drone applications and IoT-based smart metering.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-card glass reveal">
+      <div class="footer-top">
+        <div class="footer-cta">
+          <div class="sec-tag">Let's build</div>
+          <h2>Ready to cross<br>your digital bridge?</h2>
+        </div>
+        <div class="footer-meta">
+          <div class="row"><span class="k">ADDR</span><span>No. 3359, 2nd Floor, Above More Supermarket, Hosakerehalli Cross, BSK 3rd Stage, Bengaluru – 560 085</span></div>
+          <div class="row"><span class="k">MAIL</span><span>support@vishvin.com</span></div>
+          <div class="row"><span class="k">TEL</span><span>080-35711232</span></div>
+          <div class="row"><span class="k">LINK</span><span><a href="https://www.linkedin.com/company/vishvin-technologies-private-limited/about/" target="_blank">LinkedIn →</a></span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2024 Vishvin Technologies Pvt. Ltd. All rights reserved.</span>
+        <span><a href="contact.html">Privacy Policy</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+<script>
+  const glow = document.getElementById('glow');
+  window.addEventListener('pointermove', e=>{ glow.style.left = e.clientX+'px'; glow.style.top = e.clientY+'px'; });
+
+  const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, {threshold:0.14});
+  revealEls.forEach(el=>io.observe(el));
+
+  const counters = document.querySelectorAll('.num[data-count]');
+  const countIO = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        const el = en.target;
+        const target = parseInt(el.dataset.count,10);
+        const suffix = el.dataset.suffix || '';
+        const dur = 1400; const start = performance.now();
+        function tick(now){
+          const p = Math.min((now-start)/dur, 1);
+          const eased = 1 - Math.pow(1-p, 3);
+          el.textContent = Math.round(eased*target) + suffix;
+          if(p<1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        countIO.unobserve(el);
+      }
+    });
+  }, {threshold:0.5});
+  counters.forEach(el=>countIO.observe(el));
+
+  document.querySelectorAll('.glass-hover').forEach(card=>{
+    card.addEventListener('mousemove', e=>{
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - 0.5;
+      const y = (e.clientY - r.top)/r.height - 0.5;
+      card.style.transform = `translateY(-6px) rotateX(${(-y*5).toFixed(2)}deg) rotateY(${(x*5).toFixed(2)}deg)`;
+    });
+    card.addEventListener('mouseleave', ()=>{ card.style.transform=''; });
+  });
+</script>
+</body></html>
