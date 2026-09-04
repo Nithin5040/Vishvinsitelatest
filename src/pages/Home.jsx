@@ -4,8 +4,11 @@ import { ArrowRight } from 'lucide-react';
 
 // Import local assets
 import heroVideo from '../assets/Video Project 2.mp4';
+import datacenterImg from '../assets/datacenter-server.jpg';
 import homeItInfraImg from '../assets/services/home-it-infra.jpg';
 import homeCloudIotImg from '../assets/services/home-cloud-iot.jpg';
+import amiNewImg from '../assets/services/ami-new.jpg';
+import droneAiDamImg from '../assets/services/drone-ai-dam.jpg';
 import logoKreis from '../assets/services/07 KREIS.avif';
 import logoGok from '../assets/services/08 GOK.avif';
 import logoTribal from '../assets/services/09 Department of tribal welfare.avif';
@@ -28,20 +31,30 @@ export default function Home() {
     { 
       id: 'it-infra', 
       title: 'Systems & Network Integration', 
-      desc: 'Modernizing core LAN/WAN infrastructures, optical fibers, and private virtualization clusters. We build highly resilient architectures engineered to scale effortlessly with your organization\'s growth. By implementing robust structured cabling and comprehensive security protocols, we ensure continuous service delivery, zero-downtime operations, and a rock-solid foundation for all mission-critical government and enterprise deployments.', 
+      desc: (
+        <>
+          We design, implement, and integrate <strong style={{ color: 'var(--text-main)', fontWeight: 600 }}>secure and resilient LAN/WAN, optical fiber, structured cabling, virtualization, and data centre infrastructure</strong> for government and enterprise environments. Our solutions are designed to deliver <strong style={{ color: 'var(--text-main)', fontWeight: 600 }}>high availability, scalability, network segmentation, and secure connectivity</strong>, while supporting the evolving operational and business requirements of our clients. We integrate network infrastructure with appropriate security controls and monitoring capabilities to provide a reliable foundation for <strong style={{ color: 'var(--text-main)', fontWeight: 600 }}>mission-critical applications and services</strong>.
+        </>
+      ), 
       bg: homeItInfraImg 
     },
     { 
       id: 'smart-poles', 
       title: 'Cloud-Based IoT Solutions', 
-      desc: 'Hosting secure SCADA data streams on enterprise-grade Azure IoT platforms, seamlessly rendering complex metrics onto intuitive, real-time dashboards. We transform raw field data into actionable intelligence, providing advanced analytics and predictive maintenance alerts. Our cloud architecture empowers utility decision-makers to optimize resources, reduce operational overhead, and maintain absolute control over decentralized grids.', 
+      desc: 'Harnessing the power of Azure IoT and cloud technologies to securely connect field assets, SCADA systems, and enterprise applications. We convert real-time operational data into intelligent dashboards, advanced analytics, asset-performance insights, and predictive maintenance alerts. Our scalable architecture helps utilities enhance visibility across distributed infrastructure, optimize asset utilization, reduce operational costs, and enable proactive decision-making.', 
       bg: homeCloudIotImg 
+    },
+    { 
+      id: 'metering-billing', 
+      title: 'IT-Enabled Metering & Billing Systems', 
+      desc: 'Implementing end-to-end IT-enabled metering solutions for efficient and accurate energy management. Our services include the replacement of existing Electromagnetic, DC and MNR energy meters (1-Phase & 3-Phase) with new-generation Static Energy Meters, followed by systematic meter reading, data capture, validation, and processing. We enable accurate and timely energy bill generation and distribution, supported by digital workflows and centralized data management. This integrated approach improves metering accuracy, minimizes billing discrepancies, enhances revenue assurance, and provides utilities with reliable consumption data for effective energy management and customer service.', 
+      bg: amiNewImg 
     },
     { 
       id: 'drone', 
       title: 'Drone & Geospatial Analytics', 
-      desc: 'Performing precision aerial utility mapping, high-resolution LiDAR sweeps, and automated asset fault detection using state-of-the-art Unmanned Aviation Systems. Our perception-enabled systems provide an unparalleled bird\'s-eye view of your entire grid infrastructure, instantly identifying anomalies and structural vulnerabilities. We deliver comprehensive digital twin models that dramatically enhance safety and accelerate maintenance workflows.', 
-      bg: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=1000&q=80' 
+      desc: 'Delivering advanced aerial inspection, utility mapping, LiDAR-based surveys, and geospatial analytics using state-of-the-art Unmanned Aerial Systems (UAS). Our solutions enable high-resolution assessment of transmission lines, towers, substations, and other critical utility assets, supported by automated image processing and AI-enabled anomaly detection. By transforming aerial survey data into actionable insights and digital asset models, we help utilities identify structural defects, vegetation encroachments, and potential asset vulnerabilities, improving safety, reducing inspection time, and enabling proactive maintenance and informed asset management.', 
+      bg: droneAiDamImg 
     },
   ];
 
@@ -173,18 +186,15 @@ export default function Home() {
         
         {/* Text — fades in after binary */}
         <div className="wrap" style={{
-          position: 'relative', zIndex: 3, textAlign: 'center', maxWidth: '1000px', margin: '0 auto',
+          position: 'relative', zIndex: 3, textAlign: 'center', maxWidth: '1050px', margin: '0 auto',
           opacity: heroReady ? 1 : 0, transform: heroReady ? 'translateY(0)' : 'translateY(16px)',
           transition: 'opacity 1.4s ease 0.4s, transform 1.4s ease 0.4s'
         }}>
-          <div style={{ fontSize: '13px', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '32px', color: '#fff', opacity: 0.8 }}>
-            Welcome to the future of utility
-          </div>
-          <h1 style={{ fontSize: 'clamp(48px, 6vw, 90px)', fontWeight: 200, letterSpacing: '0.12em', lineHeight: 1.15, color: '#fff', textTransform: 'uppercase', marginBottom: '32px' }}>
-            YOUR DIGITAL<br/>COMMAND CENTER
+          <h1 style={{ fontSize: 'clamp(36px, 5vw, 68px)', fontWeight: 300, letterSpacing: '0.06em', lineHeight: 1.2, color: '#fff', textTransform: 'uppercase', marginBottom: '28px' }}>
+            YOUR SECURE DIGITAL<br/>INFRASTRUCTURE PARTNER
           </h1>
-          <p style={{ fontSize: '16px', fontWeight: 300, letterSpacing: '0.05em', color: '#ccc', maxWidth: '600px', margin: '0 auto', lineHeight: 1.8 }}>
-            Securing critical utility infrastructure across Karnataka through robust Cybersecurity Frameworks, an integrated IT/OT SOC Center, and scalable architectures.
+          <p style={{ fontSize: 'clamp(14px, 1.5vw, 17px)', fontWeight: 400, letterSpacing: '0.04em', color: '#e2e8f0', maxWidth: '920px', margin: '0 auto', lineHeight: 1.8 }}>
+            IT/OT Cybersecurity &nbsp;|&nbsp; Security Operations Center (SOC) &nbsp;|&nbsp; Zero Trust Architecture &nbsp;|&nbsp; Resilient Network Infrastructure
           </p>
         </div>
       </section>
@@ -198,14 +208,14 @@ export default function Home() {
                 OUR EXPERTISE
               </div>
               <h2 style={{ fontSize: '32px', fontWeight: 300, lineHeight: 1.4, color: '#fff', marginBottom: '24px' }}>
-                We establish mission-critical, highly secure digital foundations tailored for governments and large-scale enterprises.
+                We build secure, resilient, and mission-critical digital infrastructure for governments, power utilities, and large enterprises.
               </h2>
-              <p style={{ fontSize: '15px', color: '#999', lineHeight: 1.8, maxWidth: '400px' }}>
-                By seamlessly merging advanced network topologies, resilient cloud platforms, and precision geospatial insights, Vishvin Technologies empowers modern infrastructure and smart city ecosystems with flawless operational capabilities.
+              <p style={{ fontSize: '15px', color: '#a1a1aa', lineHeight: 1.85, maxWidth: '540px' }}>
+                Vishvin Technologies delivers end-to-end solutions across <span style={{ color: '#fff', fontWeight: 500 }}>IT infrastructure, cybersecurity, IT/OT security, resilient network architecture, and digital infrastructure services</span>, enabling organizations to securely operate, connect, and protect their critical systems. With proven experience across the <span style={{ color: '#fff', fontWeight: 500 }}>power and critical infrastructure sectors</span>, we help our clients strengthen operational resilience, enhance cybersecurity, and build future-ready digital environments.
               </p>
             </div>
             <div className="reveal-right">
-              <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80" alt="Advanced Cyber Security and Smart City Infrastructure" style={{ width: '100%', height: 'auto', borderRadius: '4px', filter: 'brightness(0.8)' }} />
+              <img src={datacenterImg} alt="Mission-Critical Secure Digital Infrastructure and Power Utilities" style={{ width: '100%', height: 'auto', maxHeight: '520px', objectFit: 'cover', borderRadius: '8px', filter: 'brightness(0.95)', boxShadow: '0 20px 40px -15px rgba(0,0,0,0.5)' }} />
             </div>
           </div>
         </div>
@@ -233,7 +243,7 @@ export default function Home() {
                     <h3 style={{ fontSize: '28px', fontWeight: 400, letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: '24px', lineHeight: 1.3 }}>
                       {svc.title}
                     </h3>
-                    <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '500px' }}>
+                    <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '520px' }}>
                       {svc.desc}
                     </p>
                     <Link to={`/services/${svc.id}`} style={{ 

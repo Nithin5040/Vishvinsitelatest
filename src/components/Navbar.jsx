@@ -92,7 +92,7 @@ export default function Navbar() {
 
         {/* Logo inside overlay */}
         <Link to="/" onClick={close} style={{ marginBottom: '40px' }}>
-          <img src={logoImg} alt="Vishvin Technologies" style={{ height: '40px' }} />
+          <img src={logoImg} alt="Vishvin Technologies" style={{ height: '48px' }} />
         </Link>
 
         {/* Nav Links */}

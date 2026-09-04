@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, Signal, Gauge, Radio, Radar, Network, Library, ShieldAlert, Wrench } from 'lucide-react';
+import { ArrowRight, Signal, Gauge, Radio, Radar, Network, Library, ShieldAlert, Wrench, Receipt } from 'lucide-react';
 
 // Import local partner logos
 import logoDell from '../assets/partners/DELL Tech.png';
@@ -80,6 +80,13 @@ const services = [
     title: 'Meter Supply & Installation',  
     desc: 'Technical site deployment and replacements by certified metering engineers.',                  
     tag: 'Deployment',  
+  },
+  { 
+    id: 'metering-billing',
+    icon: <Receipt />, 
+    title: 'IT-Enabled Metering & Billing Systems',  
+    desc: 'Static meter retrofits, systematic meter reading, validation, automated bill generation, and revenue assurance.',                  
+    tag: 'Metering & Billing',  
   },
 ];
 
@@ -193,7 +200,7 @@ export default function Services() {
               <h2 style={{ fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 200, letterSpacing: '0.05em', color: 'var(--text-main)', marginBottom: '24px', textTransform: 'uppercase' }}>
                 Our Service <span style={{ fontWeight: 400 }}>Portfolio</span>
               </h2>
-              <p style={{ fontSize: '16px', color: 'var(--text-secondary)', fontWeight: 300, maxWidth: '600px', margin: '0 auto', lineHeight: 1.8 }}>Eight specialized service verticals engineered for utility modernization, smart infrastructure, and enterprise IT across Karnataka.</p>
+              <p style={{ fontSize: '16px', color: 'var(--text-secondary)', fontWeight: 300, maxWidth: '600px', margin: '0 auto', lineHeight: 1.8 }}>Comprehensive service verticals engineered for utility modernization, smart infrastructure, and enterprise IT across Karnataka.</p>
             </div>
           </div>
 

@@ -15,11 +15,13 @@ import itInfraImg from '../assets/services/it-infra.jpg';
 import digitalLibraryNewImg from '../assets/services/digital-library-new.jpg';
 import vmsImg from '../assets/services/vms.jpg';
 import meterInstallationImg from '../assets/services/meter-installation.jpg';
+import amiDiagramImg from '../assets/services/ami-diagram.jpg';
 
 const serviceOrder = [
   { id: 'smart-poles', name: 'Smart Street Poles', tag: 'Smart City / IoT' },
   { id: 'ami', name: 'AMI (Advanced Metering)', tag: 'Metering Systems' },
   { id: 'amr', name: 'AMR (Automatic Meter Read)', tag: 'Automation' },
+  { id: 'metering-billing', name: 'IT-Enabled Metering & Billing Systems', tag: 'Metering & Billing' },
   { id: 'drone', name: 'Drone-Based Inspection', tag: 'Aerial Analytics' },
   { id: 'it-infra', name: 'IT Infrastructure Integration', tag: 'Systems & Networks' },
   { id: 'digital-library', name: 'Digital Library Solutions', tag: 'Cloud Content' },
@@ -497,6 +499,90 @@ const MeterInstallation = () => (
   </DashboardLayout>
 );
 
+// 9. IT-Enabled Metering & Billing Systems
+const MeteringBilling = () => (
+  <DashboardLayout 
+    currentId="metering-billing"
+    title="IT-Enabled Metering & Billing Systems" 
+    tag="METERING & BILLING" 
+    image={amiDiagramImg}
+    rightTitle="End-to-End Meter Replacement, Validation & Automated Revenue Assurance"
+    rightSubtitle="Implementing end-to-end IT-enabled metering solutions for efficient and accurate energy management. From replacing legacy meters with new-generation Static Energy Meters to digital bill distribution."
+    specs={[
+      { label: 'Meter Compatibility', value: '1-Phase & 3-Phase Static Meters' },
+      { label: 'Decommissioning', value: 'Electromagnetic, DC & MNR Units' },
+      { label: 'Validation Engine', value: 'Automated Multi-Stage Auditing' },
+      { label: 'Billing Model', value: 'Centralized Digital Generation & Dispatch' }
+    ]}
+  >
+    <div style={{ background: 'var(--bg-primary)', padding: '40px', borderRadius: '8px', border: '1px solid var(--border-light)', marginBottom: '40px' }}>
+      <div style={{ fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '12px' }}>SERVICE OVERVIEW</div>
+      <h4 style={{ fontSize: '20px', fontWeight: 300, marginBottom: '16px', color: 'var(--text-main)', textTransform: 'uppercase' }}>Integrated Energy Metering & Revenue Cycle Architecture</h4>
+      <p style={{ color: 'var(--text-secondary)', fontSize: '15px', margin: 0, lineHeight: 1.8, fontWeight: 300 }}>
+        Implementing end-to-end IT-enabled metering solutions for efficient and accurate energy management. Our services include the replacement of existing Electromagnetic, DC and MNR energy meters (1-Phase & 3-Phase) with new-generation Static Energy Meters, followed by systematic meter reading, data capture, validation, and processing. We enable accurate and timely energy bill generation and distribution, supported by digital workflows and centralized data management. This integrated approach improves metering accuracy, minimizes billing discrepancies, enhances revenue assurance, and provides utilities with reliable consumption data for effective energy management and customer service.
+      </p>
+    </div>
+
+    {/* 4 Pillars Grid */}
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', marginBottom: '40px' }}>
+      <div style={{ background: 'var(--bg-primary)', padding: '36px', borderRadius: '8px', border: '1px solid var(--border-light)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ width: '48px', height: '48px', borderRadius: '50%', border: '1px solid var(--border-medium)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-main)' }}>
+          <Zap size={22} strokeWidth={1.5} />
+        </div>
+        <h4 style={{ fontSize: '18px', fontWeight: 400, margin: 0, color: 'var(--text-main)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Static Meter Retrofitting</h4>
+        <p style={{ color: 'var(--text-secondary)', margin: 0, lineHeight: 1.8, fontSize: '14px', fontWeight: 300 }}>
+          Systematic replacement of legacy Electromagnetic, DC, and MNR meters with high-precision 1-Phase and 3-Phase Static Energy Meters.
+        </p>
+      </div>
+
+      <div style={{ background: 'var(--bg-primary)', padding: '36px', borderRadius: '8px', border: '1px solid var(--border-light)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ width: '48px', height: '48px', borderRadius: '50%', border: '1px solid var(--border-medium)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-main)' }}>
+          <Database size={22} strokeWidth={1.5} />
+        </div>
+        <h4 style={{ fontSize: '18px', fontWeight: 400, margin: 0, color: 'var(--text-main)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Data Capture & Validation</h4>
+        <p style={{ color: 'var(--text-secondary)', margin: 0, lineHeight: 1.8, fontSize: '14px', fontWeight: 300 }}>
+          Standardized optical and digital reading, rigorous algorithmic validation checks, and consumption anomaly detection to ensure 100% data integrity.
+        </p>
+      </div>
+
+      <div style={{ background: 'var(--bg-primary)', padding: '36px', borderRadius: '8px', border: '1px solid var(--border-light)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ width: '48px', height: '48px', borderRadius: '50%', border: '1px solid var(--border-medium)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-main)' }}>
+          <Server size={22} strokeWidth={1.5} />
+        </div>
+        <h4 style={{ fontSize: '18px', fontWeight: 400, margin: 0, color: 'var(--text-main)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Automated Billing Engines</h4>
+        <p style={{ color: 'var(--text-secondary)', margin: 0, lineHeight: 1.8, fontSize: '14px', fontWeight: 300 }}>
+          Centralized tariff calculation, digital bill generation, and automated omnichannel dispatch with real-time delivery tracking.
+        </p>
+      </div>
+
+      <div style={{ background: 'var(--bg-primary)', padding: '36px', borderRadius: '8px', border: '1px solid var(--border-light)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ width: '48px', height: '48px', borderRadius: '50%', border: '1px solid var(--border-medium)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-main)' }}>
+          <Shield size={22} strokeWidth={1.5} />
+        </div>
+        <h4 style={{ fontSize: '18px', fontWeight: 400, margin: 0, color: 'var(--text-main)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Revenue Assurance & Analytics</h4>
+        <p style={{ color: 'var(--text-secondary)', margin: 0, lineHeight: 1.8, fontSize: '14px', fontWeight: 300 }}>
+          Minimizing billing discrepancies, plug revenue leaks, and provide utility leaders with granular consumption intelligence and audit trails.
+        </p>
+      </div>
+    </div>
+
+    {/* Spec Grid */}
+    <SpecGrid 
+      title="Key Capabilities & Deliverables" 
+      items={[
+        "1-Phase & 3-Phase Static Meter Swaps",
+        "Electromagnetic, DC & MNR Decommissioning",
+        "Automated Field Meter Reading Workflows",
+        "Multi-Stage Consumption Data Validation",
+        "Automated Energy Bill Generation",
+        "Digital Distribution & Omnichannel Dispatch",
+        "Revenue Leakage Mitigation & Assurance",
+        "Centralized Utility Management Dashboards"
+      ]} 
+    />
+  </DashboardLayout>
+);
+
 const ServiceDetail = () => {
   const { serviceId } = useParams();
 
@@ -508,6 +594,7 @@ const ServiceDetail = () => {
     case 'smart-poles': return <SmartPoles />;
     case 'ami': return <AMI />;
     case 'amr': return <AMR />;
+    case 'metering-billing': return <MeteringBilling />;
     case 'drone': return <Drone />;
     case 'it-infra': return <ITInfra />;
     case 'digital-library': return <DigitalLibrary />;
