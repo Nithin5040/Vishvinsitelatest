@@ -1,36 +1,9 @@
 import { Target, Heart, Award, Zap, ArrowRight, Quote } from 'lucide-react';
-import React, { useState, useEffect, useRef } from 'react';
-import droneGeospatialImg from '../assets/services/drone-geospatial.png';
+import React from 'react';
+import ceoImg from '../assets/ceo.jpg';
+import cfoImg from '../assets/cfo.avif';
 
 export default function About() {
-  const [hoveredTimelineIdx, setHoveredTimelineIdx] = useState(0);
-  const observerRef = useRef(null);
-  const eventRefs = useRef([]);
-
-  useEffect(() => {
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = Number(entry.target.getAttribute('data-index'));
-            setHoveredTimelineIdx(index);
-          }
-        });
-      },
-      { rootMargin: '-40% 0px -40% 0px', threshold: 0 } // triggers when item enters the middle 20% of the screen
-    );
-
-    eventRefs.current.forEach((el) => {
-      if (el) observerRef.current.observe(el);
-    });
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, []);
-  
   const ethos = [
     { icon: <Target size={32} />, title: 'Anchored by Goal',  desc: 'We target outcomes that continue to add utility long after project delivery.' },
     { icon: <Heart size={32} />, title: 'Care & Synergy',     desc: 'We collaborate across fields, keeping systems transparent, symmetrical, and sincere.' },
@@ -40,82 +13,38 @@ export default function About() {
 
   const leaders = [
     {
-      role: 'CEO OFFICE', title: 'Chief Executive Officer',
-      bg: 'https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&w=1000&q=80',
-      quote: 'Establishing a firm rooted in frontier technologies of the information age. Our team remains focused on scaling new milestones across state metering and grids.',
+      role: "CEO's Message", 
+      title: 'Managing Director & CEO',
+      bg: ceoImg,
+      paragraphs: [
+        'Establishing a business that would cater to new frontier technologies of Information age and build it to last has been my dream for Vishvin. Progress for me has been a constant motivation and hence once one milestone is achieved, there is always another one waiting to be crossed to accomplish our Goals & Mission. It is with this belief , that Vishvin is in the business of ITeS that has now diversified into IT Infra Services , smart metering & drone technology.',
+        'We aim to become a prominent name in its business segment catering to government & private clients.',
+        'With a laser focussed brilliant team , I am confident that we can overcome any challenge and bring success to Vishvin.  The journey of Vishvin has just begun and the best is to be witnessed. With the support of my team and clients, I am confident that the company will continue to scale new milestones of excellence for years to come.'
+      ]
     },
     {
-      role: 'CFO DIRECTIVE', title: 'Ashok M — CFO',
-      bg: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1000&q=80',
-      quote: 'Aiming to deliver real utility value through competitive pricing. We focus capital on reducing project expenses and maximizing long-term service longevity.',
+      role: "CFO's Message", 
+      title: 'Ashok M — Director & CFO',
+      bg: cfoImg,
+      paragraphs: [
+        'We always perceived our company as a unit that could make a difference with its quality and competitive pricing providing value to the products & Services rendered.Our financial  team at Vishvin look to steadily implement the financial strategy and capital policy planned for the company, specifically strengthening the financial base by appropriately managing cash allocation and implement returns to shareholders.',
+        'Furthermore, in considering our medium- to long-term portfolio, We will aim to realize maximized investment efficiency and optimise allocation of management resources.',
+        'We have Identified 3 critical growth levers across the organization and managed at all levels of the company:'
+      ],
+      bullets: [
+        'Controlling Cost of Capital',
+        'Optimizing Short-Term Profit',
+        'Maximizing Long-Term Profit'
+      ]
     },
     {
-      role: 'OPERATIONS', title: 'S Venkatesh Murthy — Director',
+      role: "Director's Message", 
+      title: 'S Venkatesh Murthy — Director',
       bg: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80',
-      quote: 'Steering operational networks while keeping client delight central. Vishvin is built to support smart grid architectures and high-resolution LiDAR sweeps.',
-    },
-  ];
-
-  const timeline = [
-    { 
-      year: '2017', 
-      event: 'Commenced Operations & Facility Management Services', 
-      image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
-      bulletPoints: ['Provided skilled manpower for operating Any Time Payment machines at BESCOM.', 'Commenced initial operations across O&M divisions in September 2017.']
-    },
-    { 
-      year: '2018', 
-      event: 'Expanded Manpower Services for Utility Metering', 
-      image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800&q=80',
-      bulletPoints: ['Secured a 3-year contract with BESCOM.', 'Provided manpower for spot meter reading and energy bill issuance in RAPDRP areas.', 'Handled the Build, Own, Operate & Maintain (BOOM) basis for ATP machines.']
-    },
-    { 
-      year: '2019', 
-      event: 'Scaling Operations & System Integrations', 
-      image: 'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=800&q=80',
-      bulletPoints: ['Expanded utility support services across multiple new districts.', 'Began integrating modernized data logging systems for field operations.']
-    },
-    { 
-      year: '2020', 
-      event: 'Hardware Infrastructure & Enterprise Services', 
-      image: 'https://images.unsplash.com/photo-1551739440-5dd934d3a94a?auto=format&fit=crop&w=800&q=80',
-      bulletPoints: ['Supplied and commissioned IT hardware and office infrastructure for field offices.', 'Partnered with KPTCL to provide comprehensive corporate office manpower services.']
-    },
-    { 
-      year: '2021', 
-      event: 'Facility Management & GIS Maintenance', 
-      image: 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80',
-      bulletPoints: ['Delivered Facility Management Services (FMS) for 21 RAPDRP towns under CESCOM.', 'Provided manpower services for the maintenance of GIS systems at BWSSB.', 'Extended IPDS IT Phase-II implementation services to BESCOM.']
-    },
-    { 
-      year: '2022', 
-      event: 'Statewide IT Hardware Commissioning', 
-      image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
-      bulletPoints: ['Supplied and installed IT hardware for Customer Care Centres under IPDS Phase-II for BESCOM.', 'Provided FMS across GESCOM, MESCOM, and CESCOM IPDS towns.', 'Managed ticketing systems and resolution for thousands of IT assets.']
-    },
-    { 
-      year: '2023', 
-      event: 'Smart Metering & Drone Inspections', 
-      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
-      bulletPoints: ['Executed replacement of electromechanical meters with electrostatic meters for HESCOM.', 'Conducted aerial inspections of EHV Transmission lines using Unmanned Aviation Systems (UAS/Drones) for KPTCL.', 'Supplied IT infrastructure to the Department of Public Library across Karnataka.']
-    },
-    { 
-      year: '2024', 
-      event: 'Web-Enabled Software & Network Security', 
-      image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
-      bulletPoints: ['Implemented scalable web software for power requirements decision-making at KPTCL.', 'Deployed Application Access Control Systems and Secured Structured Cabling for KPTCL networks.', 'Expanded GIS digitization operators and technical manpower services.']
-    },
-    { 
-      year: '2025', 
-      event: 'Cloud Solutions & Metering Overhauls', 
-      image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=800&q=80',
-      bulletPoints: ['Replacing existing meters with new Static Meters across Kalaburagi O&M Zone for GESCOM.', 'Implementing an Enterprise Office Suite and Email Cloud solution for KPTCL.', 'Supplying and commissioning extensive desktop hardware for multiple client divisions.']
-    },
-    { 
-      year: '2026', 
-      event: 'Resilient Architectures & Advanced UAS Inspections', 
-      image: droneGeospatialImg,
-      bulletPoints: ['Implementing Resilient Network Architecture with secure cabling for KPTCL Substations.', 'Conducting comprehensive UAS/Drone-based inspections and data modeling for the Bhadra Dam (KNNL).', 'Executing long-term hardware and network maintenance contracts.']
+      paragraphs: [
+        'It is a great honour to be the Director of Vishvin Technologies steering Marketing & Projects of the company at this vital juncture of transition & transformation as Vishvin has envisioned to embrace New Frontier Technologies dominating the Information Age focussing on Quality Products & Services to delight Customers.',
+        'In a span of 5 years,  Vishvin Technologies became a prominent name in the business of ITeS & IT Infra serving Utilities & the MD’s vision is to make this company a preferred one in the upcoming technologies in the Geospatial sector using Drones for various applications and IoT Solutions especially Smart Metering in Utilities. We always want to push our company and achieve more prosperous milestones. We have already made break throughs in the identified areas and look forward to a Quantum leap'
+      ]
     },
   ];
 
@@ -209,111 +138,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* ════ TIMELINE ════ */}
-      <section style={{ padding: '120px 0', position: 'relative', background: 'var(--bg-secondary)' }}>
-        <div className="wrap">
-          <div className="reveal" style={{ textAlign: 'center', marginBottom: '120px' }}>
-            <div style={{ fontSize: '12px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '16px', display: 'inline-block', borderLeft: '1px solid var(--border-medium)', paddingLeft: '16px' }}>
-              COMPANY HISTORY
-            </div>
-            <h2 style={{ fontSize: '40px', fontWeight: 300, letterSpacing: '0.05em', color: 'var(--text-main)' }}>
-              Our Journey
-            </h2>
-          </div>
-
-          <div style={{ display: 'flex', gap: '80px', position: 'relative', alignItems: 'flex-start' }}>
-            
-            {/* LEFT: Sticky Years */}
-            <div style={{ 
-              position: 'sticky', top: '0', height: '100vh', flex: '0 0 40%', 
-              display: 'flex', alignItems: 'center', overflow: 'hidden', 
-              borderLeft: '1px solid var(--border-light)', paddingLeft: '40px',
-              marginTop: '-120px', // offset section padding to make it full height
-              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%)',
-              maskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%)'
-            }}>
-              
-              {/* Fake Ruler */}
-              <div style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {timeline.map((_, i) => (
-                  <div 
-                    key={i} 
-                    style={{ 
-                      width: i === hoveredTimelineIdx ? '16px' : '12px', 
-                      height: i === hoveredTimelineIdx ? '2px' : '1px', 
-                      background: i === hoveredTimelineIdx ? 'var(--accent-blue)' : 'var(--text-muted)',
-                      transition: 'all 0.3s ease'
-                    }} 
-                  />
-                ))}
-              </div>
-
-              {/* Large Circle Decoration */}
-              <div style={{ 
-                position: 'absolute', left: '20%', top: '50%', transform: 'translateY(-50%)',
-                width: '400px', height: '400px', borderRadius: '50%', border: '1px solid var(--border-medium)',
-                zIndex: 0, pointerEvents: 'none', transition: 'all 0.5s ease'
-              }}>
-                <div style={{ position: 'absolute', top: '-1px', right: '40px', width: '60px', height: '2px', background: 'var(--accent-blue)', transform: 'rotate(30deg)' }} />
-              </div>
-
-              <div style={{ 
-                position: 'absolute', top: '50%',
-                display: 'flex', flexDirection: 'column', transition: 'transform 0.5s cubic-bezier(0.2, 1, 0.3, 1)',
-                transform: `translateY(calc(-60px - (120px * ${hoveredTimelineIdx})))`,
-                zIndex: 1
-              }}>
-                {timeline.map((item, i) => (
-                  <div key={i} style={{ height: '120px', display: 'flex', alignItems: 'center' }}>
-                    <div style={{ 
-                      fontSize: 'clamp(64px, 8vw, 120px)', fontWeight: 800, lineHeight: 1,
-                      color: i === hoveredTimelineIdx ? 'var(--accent-blue)' : 'var(--border-medium)',
-                      transition: 'color 0.3s ease, transform 0.3s ease',
-                      transform: i === hoveredTimelineIdx ? 'scale(1.05)' : 'scale(1)',
-                      fontFamily: "'Plus Jakarta Sans', sans-serif"
-                    }}>
-                      {item.year}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* RIGHT: Scrolling Events */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', paddingBottom: '30vh' }}>
-              {timeline.map((item, i) => (
-                <div 
-                  key={i} 
-                  ref={el => eventRefs.current[i] = el}
-                  data-index={i}
-                  className="timeline-event-item reveal-stagger"
-                  style={{ 
-                    minHeight: '60vh', padding: '80px 0', borderBottom: '1px solid var(--border-light)',
-                    display: 'flex', flexDirection: 'column', justifyContent: 'center'
-                  }}
-                  onMouseEnter={() => setHoveredTimelineIdx(i)}
-                >
-                  <div className="mono-text" style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: 600, marginBottom: '16px', textTransform: 'uppercase' }}>
-                    January {item.year}
-                  </div>
-                  <h3 style={{ fontSize: '24px', marginBottom: '24px', lineHeight: 1.4, color: 'var(--text-main)' }}>
-                    {item.event}
-                  </h3>
-                  {item.bulletPoints && (
-                    <ul style={{ margin: 0, paddingLeft: '20px', color: 'var(--text-secondary)', fontSize: '16px', lineHeight: 1.7 }}>
-                      {item.bulletPoints.map((bp, idx) => (
-                        <li key={idx} style={{ marginBottom: '12px' }}>{bp}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
-            </div>
-
-          </div>
-        </div>
-      </section>
-
       {/* ════ LEADERSHIP ════ */}
       <section style={{ padding: '120px 0', background: '#050505', color: '#fff' }}>
         <div className="wrap">
@@ -326,18 +150,31 @@ export default function About() {
             </h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '40px', alignItems: 'stretch' }}>
             {leaders.map((l, i) => (
-              <div key={i} className="reveal-stagger" style={{ background: '#0a0a0a', padding: '40px', borderRadius: '4px', border: '1px solid #1a1a1a', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '32px' }}>
-                  <img src={l.bg} alt={l.title} style={{ width: '64px', height: '64px', borderRadius: '50%', objectFit: 'cover', filter: 'grayscale(100%) brightness(1.2)' }} />
+              <div key={i} className="reveal-stagger" style={{ background: '#0a0a0a', padding: '40px', borderRadius: '8px', border: '1px solid #1a1a1a', display: 'flex', flexDirection: 'column', height: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '28px' }}>
+                  <img src={l.bg} alt={l.title} style={{ width: '64px', height: '64px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border-medium)' }} />
                   <div>
-                    <h3 style={{ fontSize: '16px', fontWeight: 400, color: '#fff' }}>{l.title}</h3>
-                    <div style={{ fontSize: '11px', color: '#666', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '4px' }}>{l.role}</div>
+                    <h3 style={{ fontSize: '18px', fontWeight: 400, color: '#fff', margin: 0 }}>{l.title}</h3>
+                    <div style={{ fontSize: '11px', color: 'var(--accent-blue)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '4px' }}>{l.role}</div>
                   </div>
                 </div>
-                <Quote size={24} style={{ color: '#333', marginBottom: '24px' }} />
-                <p style={{ fontSize: '15px', color: '#999', fontStyle: 'italic', lineHeight: 1.8 }}>"{l.quote}"</p>
+                <Quote size={24} style={{ color: '#333', marginBottom: '20px', flexShrink: 0 }} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', flex: 1 }}>
+                  {l.paragraphs.map((p, pIdx) => (
+                    <p key={pIdx} style={{ fontSize: '14px', color: '#aaa', lineHeight: 1.8, margin: 0, fontWeight: 300, textAlign: 'justify' }}>
+                      {p}
+                    </p>
+                  ))}
+                  {l.bullets && (
+                    <ul style={{ margin: '8px 0 0 0', paddingLeft: '20px', color: '#bbb', fontSize: '14px', lineHeight: 1.8 }}>
+                      {l.bullets.map((b, bIdx) => (
+                        <li key={bIdx} style={{ fontWeight: 400 }}>{b}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </div>
             ))}
           </div>
