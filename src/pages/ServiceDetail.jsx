@@ -8,7 +8,7 @@ import amiNewImg from '../assets/services/ami-new.jpg';
 import amrNewImg from '../assets/services/amr-new.jpg';
 import damVideo from '../assets/dam-footage.mp4';
 import dronePowerlineImg from '../assets/services/drone-powerline.jpg';
-import droneDamImg from '../assets/services/drone-dam.jpg';
+import droneDamImg from '../assets/services/drone-geospatial.png';
 import droneWindmillImg from '../assets/services/drone-windmill.jpg';
 import droneSolarImg from '../assets/services/drone-solar.jpg';
 import itInfraImg from '../assets/services/it-infra.jpg';

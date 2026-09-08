@@ -1,5 +1,6 @@
 import { Target, Heart, Award, Zap, ArrowRight, Quote } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
+import droneGeospatialImg from '../assets/services/drone-geospatial.png';
 
 export default function About() {
   const [hoveredTimelineIdx, setHoveredTimelineIdx] = useState(0);
@@ -113,7 +114,7 @@ export default function About() {
     { 
       year: '2026', 
       event: 'Resilient Architectures & Advanced UAS Inspections', 
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
+      image: droneGeospatialImg,
       bulletPoints: ['Implementing Resilient Network Architecture with secure cabling for KPTCL Substations.', 'Conducting comprehensive UAS/Drone-based inspections and data modeling for the Bhadra Dam (KNNL).', 'Executing long-term hardware and network maintenance contracts.']
     },
   ];

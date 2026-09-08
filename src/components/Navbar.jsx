@@ -20,6 +20,16 @@ export default function Navbar() {
 
   const close = () => setMobileOpen(false);
 
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    close();
+    if (window.location.pathname === '/') {
+      window.location.reload();
+    } else {
+      window.location.href = '/';
+    }
+  };
+
   const links = [
     { to: '/', label: 'Home', end: true },
     { to: '/about', label: 'About' },
@@ -36,9 +46,9 @@ export default function Navbar() {
             <div className="navbar-inner">
 
               {/* Logo */}
-              <Link to="/" onClick={close} className="nav-logo-wrap">
+              <a href="/" onClick={handleLogoClick} className="nav-logo-wrap">
                 <img src={logoImg} alt="Vishvin Technologies" />
-              </Link>
+              </a>
 
               {/* Desktop Links */}
               <div className="nav-links">
@@ -91,9 +101,9 @@ export default function Navbar() {
         </button>
 
         {/* Logo inside overlay */}
-        <Link to="/" onClick={close} style={{ marginBottom: '40px' }}>
+        <a href="/" onClick={handleLogoClick} style={{ marginBottom: '40px' }}>
           <img src={logoImg} alt="Vishvin Technologies" style={{ height: '48px' }} />
-        </Link>
+        </a>
 
         {/* Nav Links */}
         {links.map((l, i) => (

@@ -8,6 +8,8 @@ import datacenterImg from '../assets/datacenter-server.jpg';
 import homeItInfraImg from '../assets/services/home-it-infra.jpg';
 import homeCloudIotImg from '../assets/services/home-cloud-iot.jpg';
 import amiNewImg from '../assets/services/ami-new.jpg';
+import droneGeospatialImg from '../assets/services/drone-geospatial.png';
+import meteringBillingHomeImg from '../assets/services/metering-billing-home.jpg';
 import logoKreis from '../assets/services/07 KREIS.avif';
 import logoGok from '../assets/services/08 GOK.avif';
 import logoTribal from '../assets/services/09 Department of tribal welfare.avif';
@@ -47,13 +49,13 @@ export default function Home() {
       id: 'metering-billing',
       title: 'IT-Enabled Metering & Billing Systems',
       desc: 'Implementing end-to-end IT-enabled metering solutions for efficient and accurate energy management. Our services include the replacement of existing Electromagnetic, DC and MNR energy meters (1-Phase & 3-Phase) with new-generation Static Energy Meters, followed by systematic meter reading, data capture, validation, and processing. We enable accurate and timely energy bill generation and distribution, supported by digital workflows and centralized data management. This integrated approach improves metering accuracy, minimizes billing discrepancies, enhances revenue assurance, and provides utilities with reliable consumption data for effective energy management and customer service.',
-      bg: amiNewImg
+      bg: meteringBillingHomeImg
     },
     {
       id: 'drone',
       title: 'Drone & Geospatial Analytics',
       desc: 'Delivering advanced aerial inspection, utility mapping, LiDAR-based surveys, and geospatial analytics using state-of-the-art Unmanned Aerial Systems (UAS). Our solutions enable high-resolution assessment of transmission lines, towers, substations, and other critical utility assets, supported by automated image processing and AI-enabled anomaly detection. By transforming aerial survey data into actionable insights and digital asset models, we help utilities identify structural defects, vegetation encroachments, and potential asset vulnerabilities, improving safety, reducing inspection time, and enabling proactive maintenance and informed asset management.',
-      bg: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=1000&q=80'
+      bg: droneGeospatialImg
     },
   ];
 
