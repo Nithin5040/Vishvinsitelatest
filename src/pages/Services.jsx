@@ -179,84 +179,147 @@ const timeline = [
 
 export default function Services() {
   const navigate = useNavigate();
-  const sectionRef = useRef(null);
-  const trackRef = useRef(null);
-  const [scrollX, setScrollX] = useState(0);
+  const containerRef = useRef(null);
+  const leftCardRef = useRef(null);
+  const rightCardRef = useRef(null);
 
-  const [hoveredTimelineIdx, setHoveredTimelineIdx] = useState(0);
-  const observerRef = useRef(null);
-  const eventRefs = useRef([]);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const scrollProgressRef = useRef(0);
 
-  useEffect(() => {
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = Number(entry.target.getAttribute('data-index'));
-            setHoveredTimelineIdx(index);
-          }
-        });
-      },
-      { rootMargin: '-40% 0px -40% 0px', threshold: 0 }
-    );
+  const [leftOverrideIdx, setLeftOverrideIdx] = useState(null);
+  const [rightOverrideIdx, setRightOverrideIdx] = useState(null);
 
-    eventRefs.current.forEach((el) => {
-      if (el) observerRef.current.observe(el);
-    });
+  const isHoveringLeft = useRef(false);
+  const isHoveringRight = useRef(false);
 
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, []);
+  const lastWheelTimeLeft = useRef(0);
+  const lastWheelTimeRight = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!sectionRef.current || !trackRef.current) return;
-      
-      const { top, height } = sectionRef.current.getBoundingClientRect();
-      const trackWidth = trackRef.current.scrollWidth;
-      const viewWidth = window.innerWidth;
-      
-      const maxScrollX = trackWidth - viewWidth;
-      if (maxScrollX <= 0) {
-        setScrollX(0);
-        return;
-      }
-      
+      if (!containerRef.current) return;
+      const { top, height } = containerRef.current.getBoundingClientRect();
       const scrollableHeight = height - window.innerHeight;
-      
+      if (scrollableHeight <= 0) return;
+
+      let progress = 0;
       if (top > 0) {
-        setScrollX(0);
+        progress = 0;
       } else if (-top > scrollableHeight) {
-        setScrollX(-maxScrollX);
+        progress = 1;
       } else {
-        const progress = -top / scrollableHeight;
-        setScrollX(-(progress * maxScrollX));
+        progress = -top / scrollableHeight;
+      }
+
+      scrollProgressRef.current = progress;
+      setScrollProgress(progress);
+
+      if (!isHoveringLeft.current) {
+        setLeftOverrideIdx(null);
+      }
+      if (!isHoveringRight.current) {
+        setRightOverrideIdx(null);
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleScroll);
     handleScroll();
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
   }, []);
 
+  // Independent wheel handler for Left Showcase Card
+  useEffect(() => {
+    const leftEl = leftCardRef.current;
+    const rightEl = rightCardRef.current;
+
+    const handleLeftWheel = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const now = Date.now();
+      if (now - lastWheelTimeLeft.current < 220) return;
+      lastWheelTimeLeft.current = now;
+
+      setLeftOverrideIdx((prev) => {
+        const current =
+          prev !== null
+            ? prev
+            : Math.min(
+                Math.floor(scrollProgressRef.current * services.length),
+                services.length - 1
+              );
+        if (e.deltaY > 0) {
+          return Math.min(current + 1, services.length - 1);
+        } else if (e.deltaY < 0) {
+          return Math.max(current - 1, 0);
+        }
+        return current;
+      });
+    };
+
+    const handleRightWheel = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const now = Date.now();
+      if (now - lastWheelTimeRight.current < 220) return;
+      lastWheelTimeRight.current = now;
+
+      setRightOverrideIdx((prev) => {
+        const current =
+          prev !== null
+            ? prev
+            : Math.min(
+                Math.floor(scrollProgressRef.current * timeline.length),
+                timeline.length - 1
+              );
+        if (e.deltaY > 0) {
+          return Math.min(current + 1, timeline.length - 1);
+        } else if (e.deltaY < 0) {
+          return Math.max(current - 1, 0);
+        }
+        return current;
+      });
+    };
+
+    if (leftEl) leftEl.addEventListener('wheel', handleLeftWheel, { passive: false });
+    if (rightEl) rightEl.addEventListener('wheel', handleRightWheel, { passive: false });
+
+    return () => {
+      if (leftEl) leftEl.removeEventListener('wheel', handleLeftWheel);
+      if (rightEl) rightEl.removeEventListener('wheel', handleRightWheel);
+    };
+  }, []);
+
+  const globalSvcIdx = Math.min(
+    Math.floor(scrollProgress * services.length),
+    services.length - 1
+  );
+
+  const globalTimelineIdx = Math.min(
+    Math.floor(scrollProgress * timeline.length),
+    timeline.length - 1
+  );
+
+  const activeSvcIdx = leftOverrideIdx !== null ? leftOverrideIdx : globalSvcIdx;
+  const activeTimelineIdx =
+    rightOverrideIdx !== null ? rightOverrideIdx : globalTimelineIdx;
+
   return (
     <div style={{ background: 'var(--bg-primary)' }}>
 
       {/* ════ HERO ════ */}
-      <section className="section-padding" style={{ background: 'var(--bg-primary)', overflow: 'hidden', padding: '160px 0' }}>
+      <section className="section-padding" style={{ background: 'var(--bg-primary)', overflow: 'hidden', padding: '160px 0 50px' }}>
         <div className="wrap">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
             <div className="reveal">
               <div style={{ fontSize: '12px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '40px', borderLeft: '1px solid var(--border-medium)', paddingLeft: '20px' }}>
-                IT SERVICES
+                IT SERVICES & JOURNEY
               </div>
               <h1 style={{ fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 200, lineHeight: 1.2, marginBottom: '24px', letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--text-main)' }}>
                 Technology & <br/><span style={{ color: 'var(--text-main)', fontWeight: 400 }}>IT Services.</span>
@@ -280,165 +343,561 @@ export default function Services() {
         </div>
       </section>
 
-      {/* ════ SERVICE GRID (Sticky Scroll) ════ */}
-      <section ref={sectionRef} style={{ height: '300vh', position: 'relative', background: 'var(--bg-secondary)' }}>
-        <div style={{ position: 'sticky', top: 0, height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          
-          <div className="wrap" style={{ width: '100%', paddingTop: '160px' }}>
-            <div className="reveal" style={{ textAlign: 'center', marginBottom: '80px' }}>
-              <div style={{ fontSize: '12px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '16px', display: 'inline-block', borderLeft: '1px solid var(--border-medium)', paddingLeft: '16px' }}>
-                ENTERPRISE CAPABILITIES
-              </div>
-              <h2 style={{ fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 200, letterSpacing: '0.05em', color: 'var(--text-main)', marginBottom: '24px', textTransform: 'uppercase' }}>
-                Our Service <span style={{ fontWeight: 400 }}>Portfolio</span>
-              </h2>
-              <p style={{ fontSize: '16px', color: 'var(--text-secondary)', fontWeight: 300, maxWidth: '600px', margin: '0 auto', lineHeight: 1.8 }}>Comprehensive service verticals engineered for utility modernization, smart infrastructure, and enterprise IT across Karnataka.</p>
-            </div>
-          </div>
-
-          <div 
-            ref={trackRef}
-            style={{ 
-              display: 'flex', 
-              transform: `translateX(${scrollX}px)`, 
-              willChange: 'transform',
-              borderTop: '1px solid var(--border-light)', 
-              borderBottom: '1px solid var(--border-light)',
-              width: 'max-content'
-            }}
-          >
-            {services.map((svc, i) => (
+      {/* ════ DUAL-COLUMN SYNCHRONIZED STICKY ANIMATED SHOWCASE ════ */}
+      <section
+        ref={containerRef}
+        className="showcase-sticky-outer"
+        style={{
+          height: '450vh',
+          position: 'relative',
+          background: 'var(--bg-secondary)',
+        }}
+      >
+        <div
+          className="showcase-sticky-inner"
+          style={{
+            position: 'sticky',
+            top: 0,
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            overflow: 'hidden',
+            padding: '24px 0',
+            boxSizing: 'border-box',
+          }}
+        >
+          <div className="showcase-wrap" style={{ width: '100%', padding: '0 40px', boxSizing: 'border-box' }}>
+            {/* 2-COLUMN SPLIT GRID */}
+            <div
+              className="dual-showcase-grid"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))',
+                gap: '32px',
+                alignItems: 'center',
+              }}
+            >
+              {/* ════ LEFT COLUMN: SERVICE PORTFOLIO ANIMATED SHOWCASE ════ */}
               <div
-                key={i}
-                onClick={() => navigate(`/services/${svc.id}`)}
-                style={{ flexShrink: 0, width: '400px', cursor: 'pointer', background: 'transparent', padding: '64px 48px', borderRight: '1px solid var(--border-light)', display: 'flex', flexDirection: 'column', transition: 'background 0.4s ease' }}
-                onMouseOver={e => e.currentTarget.style.background = 'var(--bg-primary)'}
-                onMouseOut={e => e.currentTarget.style.background = 'transparent'}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}
               >
-                <div style={{ color: 'var(--text-main)', marginBottom: '40px', display: 'inline-flex' }}>
-                  <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-medium)' }}>
-                    {React.cloneElement(svc.icon, { size: 36, strokeWidth: 1 })}
+                <div style={{ marginBottom: '20px', flexShrink: 0 }}>
+                  <div
+                    style={{
+                      fontSize: '13px',
+                      letterSpacing: '0.22em',
+                      textTransform: 'uppercase',
+                      color: 'var(--text-muted)',
+                      marginBottom: '8px',
+                      display: 'inline-block',
+                      borderLeft: '1px solid var(--border-medium)',
+                      paddingLeft: '14px',
+                      fontWeight: 500,
+                    }}
+                  >
+                    ENTERPRISE CAPABILITIES
                   </div>
+                  <h2
+                    style={{
+                      fontSize: 'clamp(30px, 2.8vw, 42px)',
+                      fontWeight: 300,
+                      letterSpacing: '0.05em',
+                      color: 'var(--text-main)',
+                      textTransform: 'uppercase',
+                      margin: 0,
+                      lineHeight: 1.15,
+                    }}
+                  >
+                    Our Service <span style={{ fontWeight: 400 }}>Portfolio</span>
+                  </h2>
                 </div>
-                <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '24px' }}>{svc.tag}</div>
-                <h3 style={{ fontSize: '24px', fontWeight: 300, marginBottom: '24px', color: 'var(--text-main)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>{svc.title}</h3>
-                <p style={{ fontSize: '16px', color: 'var(--text-secondary)', lineHeight: 1.8, flex: 1, marginBottom: '48px', fontWeight: 300 }}>{svc.desc}</p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--text-main)', fontWeight: 400, fontSize: '11px', marginTop: 'auto', textTransform: 'uppercase', letterSpacing: '0.2em', opacity: 0.7, transition: 'opacity 0.3s' }} onMouseOver={e => e.currentTarget.style.opacity = 1} onMouseOut={e => e.currentTarget.style.opacity = 0.7}>
-                  View Details <ArrowRight size={14} strokeWidth={1.5} />
+
+                {/* Active Animated Service Card Showcase (Compact 460px Height) */}
+                <div
+                  ref={leftCardRef}
+                  className="showcase-card-compact"
+                  onMouseEnter={() => {
+                    isHoveringLeft.current = true;
+                  }}
+                  onMouseLeave={() => {
+                    isHoveringLeft.current = false;
+                    setLeftOverrideIdx(null);
+                  }}
+                  style={{
+                    position: 'relative',
+                    height: '460px',
+                    overflow: 'hidden',
+                    borderRadius: '20px',
+                    border: '1px solid var(--border-light)',
+                    background: 'var(--bg-primary)',
+                    boxShadow: '0 12px 40px rgba(0,0,0,0.25)',
+                  }}
+                >
+                  {services.map((svc, i) => {
+                    const isActive = i === activeSvcIdx;
+                    return (
+                      <div
+                        key={i}
+                        className="showcase-card-inner-padding"
+                        onClick={() => navigate(`/services/${svc.id}`)}
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          padding: '40px 36px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'space-between',
+                          opacity: isActive ? 1 : 0,
+                          transform: isActive
+                            ? 'translateY(0) scale(1)'
+                            : i < activeSvcIdx
+                            ? 'translateY(-30px) scale(0.95)'
+                            : 'translateY(30px) scale(0.95)',
+                          pointerEvents: isActive ? 'auto' : 'none',
+                          transition:
+                            'all 0.5s cubic-bezier(0.2, 1, 0.3, 1)',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: '64px',
+                              height: '64px',
+                              borderRadius: '50%',
+                              background: 'transparent',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              border: '1px solid var(--accent-blue)',
+                              color: 'var(--text-main)',
+                            }}
+                          >
+                            {React.cloneElement(svc.icon, {
+                              size: 30,
+                              strokeWidth: 1.5,
+                            })}
+                          </div>
+                          <span
+                            style={{
+                              fontSize: '11px',
+                              letterSpacing: '0.18em',
+                              textTransform: 'uppercase',
+                              color: 'var(--accent-blue)',
+                              border: '1px solid var(--accent-blue)',
+                              padding: '6px 18px',
+                              borderRadius: '20px',
+                              fontWeight: 600,
+                            }}
+                          >
+                            {svc.tag}
+                          </span>
+                        </div>
+
+                        <div style={{ margin: '14px 0' }}>
+                          <h3
+                            style={{
+                              fontSize: 'clamp(20px, 1.8vw, 26px)',
+                              fontWeight: 400,
+                              marginBottom: '12px',
+                              color: 'var(--text-main)',
+                              letterSpacing: '0.03em',
+                              textTransform: 'uppercase',
+                              lineHeight: 1.3,
+                            }}
+                          >
+                            {svc.title}
+                          </h3>
+                          <p
+                            style={{
+                              fontSize: '15px',
+                              color: 'var(--text-secondary)',
+                              lineHeight: 1.7,
+                              margin: 0,
+                              fontWeight: 300,
+                            }}
+                          >
+                            {svc.desc}
+                          </p>
+                        </div>
+
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            borderTop: '1px solid var(--border-light)',
+                            paddingTop: '16px',
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              color: 'var(--accent-blue)',
+                              fontWeight: 600,
+                              fontSize: '12px',
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.15em',
+                            }}
+                          >
+                            Explore Service Details{' '}
+                            <ArrowRight size={14} strokeWidth={1.5} />
+                          </div>
+                          <div
+                            style={{
+                              fontSize: '11px',
+                              color: 'var(--text-muted)',
+                              fontWeight: 600,
+                            }}
+                          >
+                            0{i + 1} / 0{services.length}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Bottom Dot Progress Bar for Left Column */}
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '8px',
+                    justifyContent: 'center',
+                    marginTop: '16px',
+                    flexShrink: 0,
+                  }}
+                >
+                  {services.map((_, i) => (
+                    <div
+                      key={i}
+                      onClick={() => setLeftOverrideIdx(i)}
+                      style={{
+                        width: i === activeSvcIdx ? '28px' : '8px',
+                        height: '8px',
+                        borderRadius: '4px',
+                        background:
+                          i === activeSvcIdx
+                            ? 'var(--accent-blue)'
+                            : 'var(--border-medium)',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer',
+                      }}
+                    />
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ════ TIMELINE / COMPANY HISTORY ════ */}
-      <section style={{ padding: '120px 0', position: 'relative', background: 'var(--bg-primary)' }}>
-        <div className="wrap">
-          <div className="reveal" style={{ textAlign: 'center', marginBottom: '120px' }}>
-            <div style={{ fontSize: '12px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '16px', display: 'inline-block', borderLeft: '1px solid var(--border-medium)', paddingLeft: '16px' }}>
-              COMPANY HISTORY
-            </div>
-            <h2 style={{ fontSize: '40px', fontWeight: 300, letterSpacing: '0.05em', color: 'var(--text-main)' }}>
-              Our Journey
-            </h2>
-          </div>
+              {/* ════ RIGHT COLUMN: COMPANY HISTORY ANIMATED TIMELINE SHOWCASE ════ */}
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}
+              >
+                <div style={{ marginBottom: '20px', flexShrink: 0 }}>
+                  <div
+                    style={{
+                      fontSize: '13px',
+                      letterSpacing: '0.22em',
+                      textTransform: 'uppercase',
+                      color: 'var(--text-muted)',
+                      marginBottom: '8px',
+                      display: 'inline-block',
+                      borderLeft: '1px solid var(--border-medium)',
+                      paddingLeft: '14px',
+                      fontWeight: 500,
+                    }}
+                  >
+                    COMPANY HISTORY
+                  </div>
+                  <h2
+                    style={{
+                      fontSize: 'clamp(30px, 2.8vw, 42px)',
+                      fontWeight: 300,
+                      letterSpacing: '0.05em',
+                      color: 'var(--text-main)',
+                      textTransform: 'uppercase',
+                      margin: 0,
+                      lineHeight: 1.15,
+                    }}
+                  >
+                    Our <span style={{ fontWeight: 400 }}>Journey</span>
+                  </h2>
+                </div>
 
-          <div style={{ display: 'flex', gap: '80px', position: 'relative', alignItems: 'flex-start' }}>
-            
-            {/* LEFT: Sticky Years */}
-            <div style={{ 
-              position: 'sticky', top: '0', height: '100vh', flex: '0 0 40%', 
-              display: 'flex', alignItems: 'center', overflow: 'hidden', 
-              borderLeft: '1px solid var(--border-light)', paddingLeft: '40px',
-              marginTop: '-120px',
-              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%)',
-              maskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%)'
-            }}>
-              
-              {/* Fake Ruler */}
-              <div style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {timeline.map((_, i) => (
-                  <div 
-                    key={i} 
-                    style={{ 
-                      width: i === hoveredTimelineIdx ? '16px' : '12px', 
-                      height: i === hoveredTimelineIdx ? '2px' : '1px', 
-                      background: i === hoveredTimelineIdx ? 'var(--accent-blue)' : 'var(--text-muted)',
-                      transition: 'all 0.3s ease'
-                    }} 
-                  />
-                ))}
-              </div>
+                {/* Timeline Animation Container (Compact 460px Height) */}
+                <div
+                  ref={rightCardRef}
+                  className="showcase-card-compact showcase-card-inner-padding"
+                  onMouseEnter={() => {
+                    isHoveringRight.current = true;
+                  }}
+                  onMouseLeave={() => {
+                    isHoveringRight.current = false;
+                    setRightOverrideIdx(null);
+                  }}
+                  style={{
+                    display: 'flex',
+                    gap: '24px',
+                    alignItems: 'center',
+                    height: '460px',
+                    background: 'var(--bg-primary)',
+                    borderRadius: '20px',
+                    border: '1px solid var(--border-light)',
+                    padding: '38px 32px',
+                    boxShadow: '0 12px 40px rgba(0,0,0,0.25)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {/* Left Ruler & Animated Vertical Sliding Year Indicator */}
+                  <div
+                    className="showcase-ruler-col"
+                    style={{
+                      width: '180px',
+                      height: '100%',
+                      flexShrink: 0,
+                      position: 'relative',
+                      display: 'flex',
+                      alignItems: 'center',
+                      overflow: 'hidden',
+                      borderRight: '1px solid var(--border-light)',
+                      paddingRight: '14px',
+                      WebkitMaskImage:
+                        'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+                      maskImage:
+                        'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+                    }}
+                  >
+                    {/* Fake Ruler */}
+                    <div
+                      style={{
+                        position: 'absolute',
+                        left: '8px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '10px',
+                      }}
+                    >
+                      {timeline.map((_, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            width: i === activeTimelineIdx ? '16px' : '8px',
+                            height: i === activeTimelineIdx ? '2px' : '1px',
+                            background:
+                              i === activeTimelineIdx
+                                ? 'var(--accent-blue)'
+                                : 'var(--text-muted)',
+                            transition: 'all 0.3s ease',
+                          }}
+                        />
+                      ))}
+                    </div>
 
-              {/* Large Circle Decoration */}
-              <div style={{ 
-                position: 'absolute', left: '20%', top: '50%', transform: 'translateY(-50%)',
-                width: '400px', height: '400px', borderRadius: '50%', border: '1px solid var(--border-medium)',
-                zIndex: 0, pointerEvents: 'none', transition: 'all 0.5s ease'
-              }}>
-                <div style={{ position: 'absolute', top: '-1px', right: '40px', width: '60px', height: '2px', background: 'var(--accent-blue)', transform: 'rotate(30deg)' }} />
-              </div>
-
-              <div style={{ 
-                position: 'absolute', top: '50%',
-                display: 'flex', flexDirection: 'column', transition: 'transform 0.5s cubic-bezier(0.2, 1, 0.3, 1)',
-                transform: `translateY(calc(-60px - (120px * ${hoveredTimelineIdx})))`,
-                zIndex: 1
-              }}>
-                {timeline.map((item, i) => (
-                  <div key={i} style={{ height: '120px', display: 'flex', alignItems: 'center' }}>
-                    <div style={{ 
-                      fontSize: 'clamp(64px, 8vw, 120px)', fontWeight: 800, lineHeight: 1,
-                      color: i === hoveredTimelineIdx ? 'var(--accent-blue)' : 'var(--border-medium)',
-                      transition: 'color 0.3s ease, transform 0.3s ease',
-                      transform: i === hoveredTimelineIdx ? 'scale(1.05)' : 'scale(1)',
-                      fontFamily: "'Plus Jakarta Sans', sans-serif"
-                    }}>
-                      {item.year}
+                    {/* Big Animated Sliding Year Digits (No Truncation) */}
+                    <div
+                      className="showcase-ruler-digits"
+                      style={{
+                        position: 'absolute',
+                        left: '34px',
+                        top: '50%',
+                        width: '130px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        transition:
+                          'transform 0.5s cubic-bezier(0.2, 1, 0.3, 1)',
+                        transform: `translateY(calc(-32px - (64px * ${activeTimelineIdx})))`,
+                        zIndex: 1,
+                      }}
+                    >
+                      {timeline.map((item, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            height: '64px',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <div
+                            className="showcase-ruler-digit-text"
+                            style={{
+                              fontSize: 'clamp(32px, 3vw, 42px)',
+                              fontWeight: 800,
+                              lineHeight: 1,
+                              color:
+                                i === activeTimelineIdx
+                                  ? 'var(--accent-blue)'
+                                  : 'var(--border-medium)',
+                              transition:
+                                'color 0.3s ease, transform 0.3s ease',
+                              transform:
+                                i === activeTimelineIdx
+                                  ? 'scale(1.1)'
+                                  : 'scale(0.9)',
+                              fontFamily: "'Plus Jakarta Sans', sans-serif",
+                              letterSpacing: '0.02em',
+                            }}
+                          >
+                            {item.year}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                ))}
+
+                  {/* Right Event Details with Smooth Transition */}
+                  <div
+                    style={{
+                      flex: 1,
+                      height: '100%',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      paddingLeft: '4px',
+                    }}
+                  >
+                    {timeline.map((item, i) => {
+                      const isActive = i === activeTimelineIdx;
+                      return (
+                        <div
+                          key={i}
+                          style={{
+                            position: 'absolute',
+                            inset: 0,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            gap: '14px',
+                            opacity: isActive ? 1 : 0,
+                            transform: isActive
+                              ? 'translateY(0) scale(1)'
+                              : i < activeTimelineIdx
+                              ? 'translateY(-25px) scale(0.95)'
+                              : 'translateY(25px) scale(0.95)',
+                            pointerEvents: isActive ? 'auto' : 'none',
+                            transition:
+                              'all 0.5s cubic-bezier(0.2, 1, 0.3, 1)',
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                            }}
+                          >
+                            <span
+                              className="mono-text"
+                              style={{
+                                fontSize: '11px',
+                                color: 'var(--accent-blue)',
+                                fontWeight: 600,
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.15em',
+                              }}
+                            >
+                              JANUARY {item.year}
+                            </span>
+                            <span
+                              style={{
+                                fontSize: '11px',
+                                color: 'var(--text-muted)',
+                              }}
+                            >
+                              Milestone {i + 1}/{timeline.length}
+                            </span>
+                          </div>
+
+                          <h3
+                            style={{
+                              fontSize: 'clamp(18px, 1.6vw, 22px)',
+                              fontWeight: 400,
+                              lineHeight: 1.35,
+                              color: 'var(--text-main)',
+                              margin: 0,
+                            }}
+                          >
+                            {item.event}
+                          </h3>
+
+                          {item.bulletPoints && (
+                            <ul
+                              style={{
+                                margin: 0,
+                                paddingLeft: '18px',
+                                color: 'var(--text-secondary)',
+                                fontSize: '14px',
+                                lineHeight: 1.6,
+                                fontWeight: 300,
+                              }}
+                            >
+                              {item.bulletPoints.map((bp, idx) => (
+                                <li key={idx} style={{ marginBottom: '6px' }}>
+                                  {bp}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Bottom Year Indicator Bar */}
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '8px',
+                    justifyContent: 'center',
+                    marginTop: '16px',
+                    flexShrink: 0,
+                  }}
+                >
+                  {timeline.map((item, i) => (
+                    <div
+                      key={i}
+                      onClick={() => setRightOverrideIdx(i)}
+                      style={{
+                        width: i === activeTimelineIdx ? '28px' : '8px',
+                        height: '8px',
+                        borderRadius: '4px',
+                        background:
+                          i === activeTimelineIdx
+                            ? 'var(--accent-blue)'
+                            : 'var(--border-medium)',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer',
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
-
-            {/* RIGHT: Scrolling Events */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', paddingBottom: '30vh' }}>
-              {timeline.map((item, i) => (
-                <div 
-                  key={i} 
-                  ref={el => eventRefs.current[i] = el}
-                  data-index={i}
-                  className="timeline-event-item reveal-stagger"
-                  style={{ 
-                    minHeight: '60vh', padding: '80px 0', borderBottom: '1px solid var(--border-light)',
-                    display: 'flex', flexDirection: 'column', justifyContent: 'center'
-                  }}
-                  onMouseEnter={() => setHoveredTimelineIdx(i)}
-                >
-                  <div className="mono-text" style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: 600, marginBottom: '16px', textTransform: 'uppercase' }}>
-                    January {item.year}
-                  </div>
-                  <h3 style={{ fontSize: '24px', marginBottom: '24px', lineHeight: 1.4, color: 'var(--text-main)' }}>
-                    {item.event}
-                  </h3>
-                  {item.bulletPoints && (
-                    <ul style={{ margin: 0, paddingLeft: '20px', color: 'var(--text-secondary)', fontSize: '16px', lineHeight: 1.7 }}>
-                      {item.bulletPoints.map((bp, idx) => (
-                        <li key={idx} style={{ marginBottom: '12px' }}>{bp}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
-            </div>
-
           </div>
         </div>
       </section>
 
       {/* ════ TECH PARTNERS ════ */}
-      <section style={{ padding: '40px 0 50px', background: '#050505', color: '#fff' }}>
+      <section style={{ padding: '60px 0 50px', background: '#050505', color: '#fff' }}>
         <div className="wrap">
           <div className="reveal" style={{ textAlign: 'center', marginBottom: '24px' }}>
             <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#666', marginBottom: '8px', display: 'inline-block', borderLeft: '1px solid #333', paddingLeft: '14px' }}>
