@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import LogoIntro from './components/LogoIntro';
 import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
@@ -30,6 +31,10 @@ function ScrollToTop() {
 
 function App() {
   const { pathname } = useLocation();
+  const [showIntro, setShowIntro] = useState(() => {
+    // Show intro on initial page load / session
+    return true;
+  });
 
   // Scroll reveal observer on route change
   useEffect(() => {
@@ -62,6 +67,7 @@ function App() {
 
   return (
     <div className="app-container">
+      {showIntro && <LogoIntro onComplete={() => setShowIntro(false)} />}
       <ScrollToTop />
       {pathname !== '/hr-portal' && <Navbar />}
       <main>

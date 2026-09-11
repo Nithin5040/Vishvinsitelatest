@@ -92,175 +92,6 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  const [introDone, setIntroDone] = useState(false);
-  const introCanvasRef = useRef(null);
-
-  // ─── FORMAL & PROFESSIONAL ENTERPRISE BINARY INTRO ───────────────────────────
-  useEffect(() => {
-    const canvas = introCanvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animId;
-    let W = (canvas.width = window.innerWidth);
-    let H = (canvas.height = window.innerHeight);
-
-    const resize = () => {
-      if (!canvas) return;
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    };
-    window.addEventListener('resize', resize);
-
-    const startTime = performance.now();
-    const TOTAL_INTRO_MS = 1150; // Clean, formal, fast 1.15s intro
-    let isSkipped = false;
-
-    const handleSkip = () => {
-      if (!isSkipped && !introDone) {
-        isSkipped = true;
-        setIntroDone(true);
-      }
-    };
-    window.addEventListener('click', handleSkip);
-    window.addEventListener('keydown', handleSkip);
-
-    // Setup Clean Binary Columns
-    const FONT_SIZE = 13;
-    const colSpacing = 28;
-    const numCols = Math.floor(W / colSpacing);
-
-    const cols = Array.from({ length: numCols }, (_, i) => ({
-      x: i * colSpacing + colSpacing / 2,
-      y: Math.random() * H,
-      speed: 8 + Math.random() * 8, // Smooth, moderate data flow
-      len: Math.floor(12 + Math.random() * 16),
-      chars: Array.from({ length: 30 }, () => (Math.random() > 0.5 ? '1' : '0')),
-      alpha: 0.12 + Math.random() * 0.22,
-    }));
-
-    const render = (now) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / TOTAL_INTRO_MS, 1);
-      const CX = W / 2;
-      const CY = H / 2;
-
-      // ── Clean Deep Obsidian Background ──
-      ctx.fillStyle = '#060a12';
-      ctx.fillRect(0, 0, W, H);
-
-      // ── Subtle Binary Rain Columns ──
-      ctx.font = `500 ${FONT_SIZE}px 'JetBrains Mono', monospace`;
-      ctx.textAlign = 'center';
-
-      cols.forEach((col) => {
-        col.y += col.speed;
-        if (col.y > H + col.len * FONT_SIZE) {
-          col.y = -col.len * FONT_SIZE;
-        }
-
-        if (Math.random() < 0.05) {
-          const idx = Math.floor(Math.random() * col.chars.length);
-          col.chars[idx] = Math.random() > 0.5 ? '1' : '0';
-        }
-
-        for (let i = 0; i < col.len; i++) {
-          const charY = col.y - i * FONT_SIZE;
-          if (charY < -FONT_SIZE || charY > H + FONT_SIZE) continue;
-
-          const t = i / col.len;
-          const char = col.chars[i % col.chars.length];
-
-          if (i === 0) {
-            // Crisp lead digit
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            ctx.shadowColor = '#38bdf8';
-            ctx.shadowBlur = 6;
-          } else {
-            ctx.shadowBlur = 0;
-            const fade = (1 - t) * col.alpha;
-            ctx.fillStyle = `rgba(147, 197, 253, ${fade})`;
-          }
-
-          ctx.fillText(char, col.x, charY);
-        }
-      });
-      ctx.shadowBlur = 0;
-
-      // ── Minimalist Corporate Identity in Center ──
-      const brandFade = Math.min(elapsed / 400, 1);
-      ctx.save();
-      ctx.globalAlpha = brandFade;
-
-      // Subtle center ambient glow
-      const glowR = Math.min(W, H) * 0.28;
-      const radGrd = ctx.createRadialGradient(CX, CY, 0, CX, CY, glowR);
-      radGrd.addColorStop(0, 'rgba(37, 99, 235, 0.14)');
-      radGrd.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      ctx.fillStyle = radGrd;
-      ctx.beginPath();
-      ctx.arc(CX, CY, glowR, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Brand Title
-      ctx.font = `600 22px 'Plus Jakarta Sans', sans-serif`;
-      ctx.fillStyle = '#ffffff';
-      ctx.textAlign = 'center';
-      ctx.letterSpacing = '6px';
-      ctx.fillText('V I S H V I N', CX, CY - 12);
-
-      // Elegant Expanding Divider
-      const lineLen = Math.min((elapsed / 600) * 160, 160);
-      ctx.strokeStyle = 'rgba(56, 189, 248, 0.6)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(CX - lineLen / 2, CY + 4);
-      ctx.lineTo(CX + lineLen / 2, CY + 4);
-      ctx.stroke();
-
-      // Sub-label
-      ctx.font = `600 10px 'JetBrains Mono', monospace`;
-      ctx.fillStyle = 'rgba(147, 197, 253, 0.85)';
-      ctx.letterSpacing = '3px';
-      ctx.fillText('SECURE DIGITAL INFRASTRUCTURE', CX, CY + 24);
-
-      ctx.restore();
-
-      // ── Clean Optical Scanline Sweep ──
-      const scanY = (progress * (H + 100)) - 50;
-      const scanGrd = ctx.createLinearGradient(0, scanY - 30, 0, scanY + 2);
-      scanGrd.addColorStop(0, 'rgba(56, 189, 248, 0)');
-      scanGrd.addColorStop(1, 'rgba(56, 189, 248, 0.22)');
-      ctx.fillStyle = scanGrd;
-      ctx.fillRect(0, scanY - 30, W, 32);
-
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(0, scanY);
-      ctx.lineTo(W, scanY);
-      ctx.stroke();
-
-      // Check Completion
-      if (elapsed < TOTAL_INTRO_MS && !isSkipped) {
-        animId = requestAnimationFrame(render);
-      } else {
-        setIntroDone(true);
-      }
-    };
-
-    animId = requestAnimationFrame(render);
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('resize', resize);
-      window.removeEventListener('click', handleSkip);
-      window.removeEventListener('keydown', handleSkip);
-    };
-  }, [introDone]);
-
   return (
     <div style={{ background: 'var(--bg-primary)' }}>
 
@@ -269,29 +100,15 @@ export default function Home() {
         position: 'relative', height: '90vh', minHeight: '620px', display: 'flex', alignItems: 'center', justifyContent: 'center',
         color: '#fff', overflow: 'hidden', background: '#020617'
       }}>
-        {/* Formal Binary Intro Canvas — Fades out smoothly after 1.1s to reveal video */}
-        <canvas
-          ref={introCanvasRef}
-          style={{
-            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-            zIndex: 4, pointerEvents: introDone ? 'none' : 'auto',
-            opacity: introDone ? 0 : 1,
-            transition: 'opacity 0.7s ease',
-            cursor: introDone ? 'default' : 'pointer'
-          }}
-          title={!introDone ? 'Click to Skip' : undefined}
-        />
-
-        {/* Hero Video — Plays smoothly under the intro and reveals when binary completes */}
+        {/* Hero Video */}
         <video
           autoPlay loop muted playsInline
           src={heroVideo}
           style={{
             position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
             objectFit: 'cover', zIndex: 0,
-            opacity: introDone ? 0.85 : 0,
-            transform: introDone ? 'scale(1)' : 'scale(1.04)',
-            transition: 'opacity 1.0s ease, transform 1.2s ease',
+            opacity: 0.85,
+            transform: 'scale(1)',
           }}
         />
 
@@ -300,17 +117,15 @@ export default function Home() {
           position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
           background: 'radial-gradient(ellipse at center, rgba(2,6,23,0.3) 0%, rgba(2,6,23,0.88) 100%)',
           zIndex: 1,
-          opacity: introDone ? 1 : 0,
-          transition: 'opacity 1.0s ease',
+          opacity: 1,
         }} />
 
         {/* Hero Content — Smoothly emerges after binary intro */}
         <div className="wrap" style={{
           position: 'relative', zIndex: 3, textAlign: 'center', maxWidth: '1100px', margin: '0 auto',
           padding: '0 24px',
-          opacity: introDone ? 1 : 0,
-          transform: introDone ? 'translateY(0)' : 'translateY(16px)',
-          transition: 'opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s'
+          opacity: 1,
+          transform: 'translateY(0)',
         }}>
           {/* Formal Executive Status Badge */}
           <div style={{
