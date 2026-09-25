@@ -236,11 +236,12 @@ nav { position: sticky; top: 0; z-index: 100; width: 100%; }
 }
 .navbar-inner { 
   display: flex; align-items: center; justify-content: space-between; 
-  height: 60px; padding: 0 16px; position: relative; transition: all 0.35s var(--ease-out);
+  height: 70px; padding: 0 18px; position: relative; transition: all 0.35s var(--ease-out);
 }
-.nav-logo-wrap { display: flex; align-items: center; transition: transform var(--duration-normal) var(--ease-spring); }
+.nav-logo-wrap { display: flex; align-items: center; gap: 14px; text-decoration: none; transition: transform var(--duration-normal) var(--ease-spring); }
 .nav-logo-wrap:hover { transform: scale(1.02); }
-.nav-logo-wrap img { height: 54px; width: auto; object-fit: contain; }
+.nav-logo-icon { height: 56px; width: auto; object-fit: contain; flex-shrink: 0; }
+.nav-logo-text { height: 52px; width: auto; object-fit: contain; }
 .nav-links { display: flex; align-items: center; gap: 4px; }
 .nav-link { 
   position: relative; padding: 6px 14px; font-size: 13px; font-family: 'Plus Jakarta Sans', sans-serif;
@@ -248,7 +249,7 @@ nav { position: sticky; top: 0; z-index: 100; width: 100%; }
   border-radius: var(--radius-full); transition: color 0.25s ease, background 0.25s ease; 
 }
 .nav-link::after { 
-  content: ''; position: absolute; bottom: 2px; left: 14px; right: 14px; height: 2px; 
+  content: ''; position: absolute; bottom: -4px; left: 14px; right: 14px; height: 2px; 
   background: var(--accent-blue); border-radius: 2px; transform: scaleX(0); 
   transition: transform 0.25s var(--ease-out); 
 }
@@ -299,9 +300,9 @@ nav { position: sticky; top: 0; z-index: 100; width: 100%; }
 @media (max-width: 1024px) {
   .nav-links, .nav-cta { display: none; }
   .nav-mobile-btn { display: flex; }
-  .navbar-wrapper { padding: 6px 20px; }
-  .navbar-inner { padding: 0; height: 54px; }
-  .nav-logo-wrap img { height: 48px; }
+  .navbar-inner { padding: 0; height: 60px; }
+  .nav-logo-icon { height: 44px; }
+  .nav-logo-text { height: 42px; }
 }
 @media (max-width: 768px) {
   .section-padding { padding: 80px 0; }

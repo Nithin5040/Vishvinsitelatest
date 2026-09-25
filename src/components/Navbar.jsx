@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import logoImg from '../assets/logo.png';
+import emblemImg from '../assets/logo-slices/navbar-emblem.png';
+import textDarkImg from '../assets/logo-slices/navbar-text-dark.png';
+import textWhiteImg from '../assets/logo-slices/navbar-text-white.png';
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -45,30 +47,33 @@ export default function Navbar() {
           <div className="wrap">
             <div className="navbar-inner">
 
-              {/* Logo */}
+              {/* Split Logo: Emblem Icon + Enlarged Text */}
               <a href="/" onClick={handleLogoClick} className="nav-logo-wrap">
-                <img src={logoImg} alt="Vishvin Technologies" />
+                <img src={emblemImg} className="nav-logo-icon" alt="Vishvin Emblem" />
+                <img src={textDarkImg} className="nav-logo-text" alt="Vishvin Technologies" />
               </a>
 
-              {/* Desktop Links */}
-              <div className="nav-links">
-                {links.map(l => (
-                  <NavLink
-                    key={l.to}
-                    to={l.to}
-                    end={l.end}
-                    className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
-                  >
-                    {l.label}
-                  </NavLink>
-                ))}
-              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+                {/* Desktop Links */}
+                <div className="nav-links">
+                  {links.map(l => (
+                    <NavLink
+                      key={l.to}
+                      to={l.to}
+                      end={l.end}
+                      className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+                    >
+                      {l.label}
+                    </NavLink>
+                  ))}
+                </div>
 
-              {/* Desktop CTA */}
-              <div className="nav-cta">
-                <Link to="/contact" className="btn btn-primary btn-sm">
-                  Contact Us
-                </Link>
+                {/* Desktop CTA */}
+                <div className="nav-cta">
+                  <Link to="/contact" className="btn btn-primary btn-sm">
+                    Contact Us
+                  </Link>
+                </div>
               </div>
 
               {/* Mobile Hamburger */}
@@ -101,8 +106,9 @@ export default function Navbar() {
         </button>
 
         {/* Logo inside overlay */}
-        <a href="/" onClick={handleLogoClick} style={{ marginBottom: '40px' }}>
-          <img src={logoImg} alt="Vishvin Technologies" style={{ height: '48px' }} />
+        <a href="/" onClick={handleLogoClick} className="nav-logo-wrap" style={{ marginBottom: '40px', gap: '16px' }}>
+          <img src={emblemImg} className="nav-logo-icon" alt="Vishvin Emblem" style={{ height: '52px' }} />
+          <img src={textWhiteImg} className="nav-logo-text" alt="Vishvin Technologies" style={{ height: '56px' }} />
         </a>
 
         {/* Nav Links */}

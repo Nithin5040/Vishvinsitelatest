@@ -33,14 +33,14 @@ export default function Footer() {
             <Link to="/" style={{ display: 'inline-block', marginBottom: '24px' }}>
               <img src={logoImg} alt="Vishvin Technologies" style={{ height: '48px' }} />
             </Link>
-            <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '24px', maxWidth: '360px' }}>
+            <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '24px', maxWidth: '360px', textAlign: 'left' }}>
               Empowering India's digital future with resilient utility networks, state-of-the-art smart infrastructure, and unparalleled enterprise modernization solutions.
             </p>
           </div>
 
           {/* Col 2: Navigation */}
           <div>
-            <h4 style={{ fontSize: '14px', letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--text-main)', marginBottom: '24px' }}>Company</h4>
+            <h3 style={{ fontSize: '14px', letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--text-main)', marginBottom: '24px' }}>Company</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {navLinks.map(l => (
                 <Link key={l.to} to={l.to} style={{ fontSize: '14px', color: 'var(--text-secondary)', transition: 'color 0.2s ease' }} onMouseOver={e => e.currentTarget.style.color = 'var(--accent-blue)'} onMouseOut={e => e.currentTarget.style.color = 'var(--text-secondary)'}>
@@ -52,7 +52,7 @@ export default function Footer() {
 
           {/* Col 3: Services */}
           <div>
-            <h4 style={{ fontSize: '14px', letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--text-main)', marginBottom: '24px' }}>Core Solutions</h4>
+            <h3 style={{ fontSize: '14px', letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--text-main)', marginBottom: '24px' }}>Core Solutions</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {serviceLinks.map(s => (
                 <Link key={s} to="/services" style={{ fontSize: '14px', color: 'var(--text-secondary)', transition: 'color 0.2s ease' }} onMouseOver={e => e.currentTarget.style.color = 'var(--accent-blue)'} onMouseOut={e => e.currentTarget.style.color = 'var(--text-secondary)'}>
@@ -64,10 +64,10 @@ export default function Footer() {
 
           {/* Col 4: Contact */}
           <div>
-            <h4 style={{ fontSize: '14px', letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--text-main)', marginBottom: '24px' }}>Headquarters</h4>
+            <h3 style={{ fontSize: '14px', letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--text-main)', marginBottom: '24px' }}>Headquarters</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Global Office</span>
+                <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', marginTop: '16px' }}>Global Office</span>
                 <span style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
                   No. 3359, 2nd Floor, Above More Supermarket,<br />
                   Hosakerehalli Cross, BSK 3rd Stage,<br />

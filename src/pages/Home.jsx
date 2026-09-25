@@ -19,6 +19,7 @@ import logoLibrary from '../assets/services/12 Department of public liberary.avi
 import logoKnnl from '../assets/services/13 karnataka neeravery nigam limited.avif';
 import logoAdvarra from '../assets/services/14 advarra.avif';
 import logoCims from '../assets/services/15 Cimscrnagara Karnataka.avif';
+import certifiedBgImg from '../assets/certified-bg.jpg';
 
 export default function Home() {
   const stats = [
@@ -42,19 +43,31 @@ export default function Home() {
     {
       id: 'smart-poles',
       title: 'Cloud-Based IoT Solutions',
-      desc: 'Harnessing the power of Azure IoT and cloud technologies to securely connect field assets, SCADA systems, and enterprise applications. We convert real-time operational data into intelligent dashboards, advanced analytics, asset-performance insights, and predictive maintenance alerts. Our scalable architecture helps utilities enhance visibility across distributed infrastructure, optimize asset utilization, reduce operational costs, and enable proactive decision-making.',
+      desc: (
+        <>
+          Harnessing the power of <strong style={{ color: 'var(--text-main)', fontWeight: 600 }}>Azure IoT and cloud technologies</strong> to securely connect field assets, SCADA systems, and enterprise applications. We convert real-time operational data into <strong style={{ color: 'var(--text-main)', fontWeight: 600 }}>intelligent dashboards, advanced analytics, asset-performance insights, and predictive maintenance alerts</strong>. Our scalable architecture helps utilities enhance visibility across distributed infrastructure, optimize asset utilization, reduce operational costs, and enable proactive decision-making.
+        </>
+      ),
       bg: homeCloudIotImg
     },
     {
       id: 'metering-billing',
       title: 'IT-Enabled Metering & Billing Systems',
-      desc: 'Implementing end-to-end IT-enabled metering solutions for efficient and accurate energy management. Our services include the replacement of existing Electromagnetic, DC and MNR energy meters (1-Phase & 3-Phase) with new-generation Static Energy Meters, followed by systematic meter reading, data capture, validation, and processing. We enable accurate and timely energy bill generation and distribution, supported by digital workflows and centralized data management. This integrated approach improves metering accuracy, minimizes billing discrepancies, enhances revenue assurance, and provides utilities with reliable consumption data for effective energy management and customer service.',
+      desc: (
+        <>
+          Implementing end-to-end <strong style={{ color: 'var(--text-main)', fontWeight: 600 }}>IT-enabled metering solutions</strong> for efficient and accurate energy management. Our services include the replacement of existing Electromagnetic, DC and MNR energy meters (1-Phase & 3-Phase) with new-generation Static Energy Meters, followed by systematic meter reading, data capture, validation, and processing. We enable <strong style={{ color: 'var(--text-main)', fontWeight: 600 }}>accurate and timely energy bill generation and distribution</strong>, supported by digital workflows and centralized data management. This integrated approach improves metering accuracy, minimizes billing discrepancies, enhances revenue assurance, and provides utilities with reliable consumption data for effective energy management and customer service.
+        </>
+      ),
       bg: meteringBillingHomeImg
     },
     {
       id: 'drone',
       title: 'Drone & Geospatial Analytics',
-      desc: 'Delivering advanced aerial inspection, utility mapping, LiDAR-based surveys, and geospatial analytics using state-of-the-art Unmanned Aerial Systems (UAS). Our solutions enable high-resolution assessment of transmission lines, towers, substations, and other critical utility assets, supported by automated image processing and AI-enabled anomaly detection. By transforming aerial survey data into actionable insights and digital asset models, we help utilities identify structural defects, vegetation encroachments, and potential asset vulnerabilities, improving safety, reducing inspection time, and enabling proactive maintenance and informed asset management.',
+      desc: (
+        <>
+          Delivering advanced aerial inspection, utility mapping, LiDAR-based surveys, and geospatial analytics using state-of-the-art <strong style={{ color: 'var(--text-main)', fontWeight: 600 }}>Unmanned Aerial Systems (UAS)</strong>. Our solutions enable high-resolution assessment of transmission lines, towers, substations, and other critical utility assets, supported by automated image processing and AI-enabled anomaly detection. By transforming aerial survey data into actionable insights and digital asset models, we help utilities identify structural defects, vegetation encroachments, and potential asset vulnerabilities, <strong style={{ color: 'var(--text-main)', fontWeight: 600 }}>improving safety, reducing inspection time, and enabling proactive maintenance</strong> and informed asset management.
+        </>
+      ),
       bg: droneGeospatialImg
     },
   ];
@@ -138,7 +151,7 @@ export default function Home() {
           }}>
             <span style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
-              fontSize: '11px', fontWeight: 600, letterSpacing: '0.14em',
+              fontSize: '12px', fontWeight: 600, letterSpacing: '0.14em',
               color: '#f1f5f9', textTransform: 'uppercase'
             }}>
               SECURE CRITICAL INFRASTRUCTURE
@@ -148,18 +161,19 @@ export default function Home() {
           {/* Grand Heading */}
           <h1 style={{
             fontSize: 'clamp(32px, 5vw, 64px)', fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.15,
-            color: '#fff', textTransform: 'uppercase', marginBottom: '24px',
+            color: '#fff', textTransform: 'none', marginBottom: '24px',
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             textShadow: '0 4px 30px rgba(0, 0, 0, 0.8)'
           }}>
-            YOUR SECURE DIGITAL<br />
+            Your Secure Digital<br />
             <span style={{
               background: 'linear-gradient(135deg, #ffffff 20%, #93c5fd 65%, #38bdf8 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              display: 'inline-block'
+              display: 'inline-block',
+              textTransform: 'none'
             }}>
-              INFRASTRUCTURE PARTNER
+              Infrastructure Partner
             </span>
           </h1>
 
@@ -251,13 +265,13 @@ export default function Home() {
             {services.map((svc, i) => {
               const isEven = i % 2 === 0;
               return (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+                <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', alignItems: 'center' }}>
                   {/* TEXT */}
-                  <div className={isEven ? "reveal-left" : "reveal-right"} style={{ order: isEven ? 1 : 2 }}>
-                    <h3 style={{ fontSize: '28px', fontWeight: 400, letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: '24px', lineHeight: 1.3 }}>
+                  <div className={isEven ? "reveal-left" : "reveal-right"} style={{ order: isEven ? 1 : 2, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <h3 style={{ fontSize: '28px', fontWeight: 400, letterSpacing: '0.05em', margin: 0, lineHeight: 1.3 }}>
                       {svc.title}
                     </h3>
-                    <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '520px', textAlign: 'justify', textJustify: 'inter-word' }}>
+                    <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.8, margin: 0, marginBottom: '24px', maxWidth: '520px', textAlign: 'justify', textJustify: 'inter-word' }}>
                       {svc.desc}
                     </p>
                     <Link to={`/services/${svc.id}`} style={{
@@ -283,7 +297,7 @@ export default function Home() {
       {/* 4. THE SYSTEM (Full width img + left card) */}
       <section style={{
         position: 'relative', height: '80vh', minHeight: '600px',
-        backgroundImage: 'url(https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=2000&q=80)',
+        backgroundImage: `url(${certifiedBgImg})`,
         backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed',
         display: 'flex', alignItems: 'center'
       }}>
@@ -304,9 +318,9 @@ export default function Home() {
             <Link to="/about" style={{
               display: 'inline-flex', alignItems: 'center', gap: '12px',
               fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em',
-              border: '1px solid #444', padding: '12px 24px',
+              background: '#2563eb', padding: '12px 24px', border: 'none',
               borderRadius: '40px', color: '#fff', transition: 'all 0.3s'
-            }} onMouseOver={e => e.currentTarget.style.borderColor = '#fff'} onMouseOut={e => e.currentTarget.style.borderColor = '#444'}>
+            }} onMouseOver={e => e.currentTarget.style.background = '#1d4ed8'} onMouseOut={e => e.currentTarget.style.background = '#2563eb'}>
               Read More <ArrowRight size={14} />
             </Link>
           </div>
@@ -321,9 +335,9 @@ export default function Home() {
               <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" alt="Tech Engine" style={{ width: '100%', borderRadius: '4px' }} />
             </div>
             <div className="reveal-right" style={{ padding: '0 40px' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: 300, color: 'var(--text-secondary)', marginBottom: '60px' }}>
+              <h2 style={{ fontSize: '24px', fontWeight: 600, color: 'var(--text-main)', marginBottom: '24px' }}>
                 Our Strength
-              </h3>
+              </h2>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px' }}>
                 {stats.map((stat, i) => (
                   <div key={i} style={{ borderBottom: '1px solid var(--border-medium)', paddingBottom: '20px' }}>
